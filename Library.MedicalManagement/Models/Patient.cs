@@ -1,17 +1,24 @@
-﻿namespace Library.MedicalManagement.Models
+﻿using Library.MedicalManagement.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Library.MedicalManagement.Models
 {
     public class Patient
     {
-        private string? Name { get; set; }
-        private string? Address { get; set; }
-        private string? Birthdate { get; set; }
-        private string? Race { get; set; }
-        private string? Gender { get; set; }
-        private string? Diagnoses { get; set; }
-        private string? Prescriptions { get; set; }
+        public string? Name { get; set; }
+        public string? Address { get; set; }
+        public DateTime Birthdate { get; set; }
+        public string? Race { get; set; }
+        public string? Gender { get; set; }
+        public string? Diagnoses { get; set; }
+        public string? Prescriptions { get; set; }
         public int Id { get; set; }
 
-        public Patient(string name, string address, string birthdate, string race, string gender, string diagnoses, string prescription, int id)
+        public Patient(string name, string address, DateTime birthdate, string race, string gender, string diagnoses, string prescription, int id)
         {
             Name = name;
             Address = address;
@@ -23,9 +30,27 @@
             Id = id;
         }
 
+        public Patient() 
+        { 
+            Name = string.Empty;
+            Address = string.Empty;
+            Birthdate = DateTime.MinValue;
+            Race = string.Empty;
+            Gender = string.Empty;
+        }
+        public Patient(PatientDTO p)
+        {
+            Name = p.Name;
+            Address = p.Address;
+            Birthdate = p.Birthdate;
+            Race = p.Race;
+            Gender = p.Gender;
+            Id = p.Id;
+        }
+
         public override string ToString()
         {
-            return $"{Name} | {Gender} | {Race} | DOB: {Birthdate} | {Address}";
+            return $"[{Id}] | {Name} | {Gender} | {Race} | DOB: {Birthdate} | {Address}";
         }
     }
 }
