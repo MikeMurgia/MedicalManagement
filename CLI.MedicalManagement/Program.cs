@@ -1,4 +1,5 @@
 ﻿using Library.MedicalManagement.Models;
+using Library.MedicalManagement.Services;
 using System;
 
 
@@ -22,8 +23,9 @@ namespace CLI.MedicalManagement
                 Console.WriteLine("5. Edit Physicians");
                 Console.WriteLine("6. View Physicians");
                 Console.WriteLine("7. Create Appointment");
-                Console.WriteLine("8. View Appointment");
-                Console.WriteLine("9. Exit");
+                Console.WriteLine("8. Edit Appointment");
+                Console.WriteLine("9. View Appointment");
+                Console.WriteLine("Q. Exit");
 
                 var userChoice = Console.ReadLine();
 
@@ -33,7 +35,7 @@ namespace CLI.MedicalManagement
                         var patient = new Patient();
                         patient.Name = Console.ReadLine() ?? string.Empty;
                         patient.Address = Console.ReadLine() ?? string.Empty;
-                        patient.Birthdate = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+                        patient.Birthdate = DateTime.Parse(Console.ReadLine() ?? "12 12 2025 12:00:00");
                         patient.Race = Console.ReadLine() ?? string.Empty;
                         patient.Gender = Console.ReadLine() ?? string.Empty;
                         patient.Diagnoses = Console.ReadLine() ?? string.Empty;
@@ -61,7 +63,7 @@ namespace CLI.MedicalManagement
                             {
                                 PatToUpdate.Name = Console.ReadLine();
                                 PatToUpdate.Address = Console.ReadLine();
-                                PatToUpdate.Birthdate = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+                                PatToUpdate.Birthdate = DateTime.Parse(Console.ReadLine() ?? "12 12 2025 12:00:00");
                                 PatToUpdate.Race = Console.ReadLine();
                                 PatToUpdate.Gender = Console.ReadLine();
                                 PatToUpdate.Diagnoses = Console.ReadLine();
@@ -82,7 +84,7 @@ namespace CLI.MedicalManagement
                         physician.Name = Console.ReadLine() ?? string.Empty;
                         physician.License = Console.ReadLine() ?? string.Empty;
                         physician.Specializations = Console.ReadLine() ?? string.Empty;
-                        physician.GraduationDate = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+                        physician.GraduationDate = DateTime.Parse(Console.ReadLine() ?? "12 12 2025 12:00:00");
                         var maxIdPH = -1;
                         if (physicians.Any())
                         {
@@ -107,7 +109,7 @@ namespace CLI.MedicalManagement
                             {
                                 PhyToUpdate.Name = Console.ReadLine() ?? string.Empty;
                                 PhyToUpdate.License = Console.ReadLine() ?? string.Empty;
-                                PhyToUpdate.GraduationDate = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+                                PhyToUpdate.GraduationDate = DateTime.Parse(Console.ReadLine() ?? "12 12 2025 12:00:00");
                                 PhyToUpdate.Specializations = Console.ReadLine() ?? string.Empty;
 
                             }
@@ -122,13 +124,13 @@ namespace CLI.MedicalManagement
                         break;
                     case "7":
                         var appointment = new Appointments();
-                        appointment.StartTime = DateTime.Parse(Console.ReadLine() ?? string.Empty);
-                        appointment.EndTime = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+                        appointment.StartTime = DateTime.Parse(Console.ReadLine() ?? "12 12 2025 12:00:00");
                         appointment.PatientId = int.Parse(Console.ReadLine() ?? string.Empty);
                         appointment.PhysicianId = int.Parse(Console.ReadLine() ?? string.Empty);
+                        AppointmentServiceProxy.Current?.AddOrUpdate(appointment);
                         break;
                     case "8":
-                        Console.WriteLine("Physician to Update (Id):");
+                        Console.WriteLine("Appointment to Update (Id):");
                         var AppSelection = Console.ReadLine();
                         if (int.TryParse(AppSelection, out int AppIntSelection))
                         {
@@ -137,8 +139,7 @@ namespace CLI.MedicalManagement
                                 .FirstOrDefault(a => (a?.Id ?? -1) == AppIntSelection);
                             if (AppToUpdate != null)
                             {
-                                AppToUpdate.StartTime = DateTime.Parse(Console.ReadLine() ?? string.Empty);
-                                AppToUpdate.EndTime = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+                                AppToUpdate.StartTime = DateTime.Parse(Console.ReadLine() ?? "12 12 2025 12:00:00");
                                 AppToUpdate.PatientId = int.Parse(Console.ReadLine() ?? string.Empty);
                                 AppToUpdate.PhysicianId = int.Parse(Console.ReadLine() ?? string.Empty);
                             }
@@ -146,6 +147,10 @@ namespace CLI.MedicalManagement
                         }
                         break;
                     case "9":
+                        AppointmentServiceProxy.Current?.appointments.ForEach(Console.WriteLine);
+                        break;
+                    case "Q":
+                    case "q":
                         return;
                     default:
                         Console.WriteLine("Invalid command");
