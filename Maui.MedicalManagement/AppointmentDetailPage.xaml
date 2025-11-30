@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.MedicalManagement.AppointmentDetailPage"
+             Title="Schedule Appointment">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="15">
+
+            <Label Text="Appointment Details" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <!-- Validation Message -->
+            <Frame BackgroundColor="{Binding IsValid, Converter={StaticResource BoolToColorConverter}}" 
+                   BorderColor="Transparent"
+                   Padding="10"
+                   IsVisible="{Binding ValidationMessage, Converter={StaticResource StringToBoolConverter}}">
+                <Label Text="{Binding ValidationMessage}" 
+                       TextColor="White"
+                       HorizontalTextAlignment="Center"/>
+            </Frame>
+
+            <Frame BackgroundColor="#F5F5F5" 
+                   BorderColor="#E0E0E0"
+                   Padding="15"
+                   CornerRadius="10">
+                <VerticalStackLayout Spacing="15">
+
+                    <!-- Patient Selection -->
+                    <Label Text="Select Patient:" FontAttributes="Bold"/>
+                    <Picker ItemsSource="{Binding AvailablePatients}"
+                            SelectedItem="{Binding SelectedPatient}"
+                            ItemDisplayBinding="{Binding Display}">
+                    </Picker>
+
+                    <!-- Physician Selection -->
+                    <Label Text="Select Physician:" FontAttributes="Bold"/>
+                    <Picker ItemsSource="{Binding AvailablePhysicians}"
+                            SelectedItem="{Binding SelectedPhysician}"
+                            ItemDisplayBinding="{Binding Display}">
+                    </Picker>
+
+                    <!-- Date Selection -->
+                    <Label Text="Appointment Date:" FontAttributes="Bold"/>
+                    <DatePicker Date="{Binding SelectedDate}" 
+                                MinimumDate="{Binding MinDate}"
+                                Format="D"/>
+
+                    <!-- Check Availability Button -->
+                    <Button Text="Check Available Time Slots" 
+                            Command="{Binding CheckAvailabilityCommand}"
+                            BackgroundColor="#FF9800"
+                            TextColor="White"/>
+
+                    <!-- Time Selection -->
+                    <Label Text="Select Time:" FontAttributes="Bold"/>
+                    <Picker ItemsSource="{Binding AvailableTimeSlots}"
+                            SelectedItem="{Binding SelectedTime}">
+                        <Picker.ItemDisplayBinding>
+                            <Binding StringFormat="{}{0:hh\:mm}"/>
+                        </Picker.ItemDisplayBinding>
+                    </Picker>
+
+                    <Label Text="Note: Appointments are 30 minutes long" 
+                           TextColor="Gray"
+                           FontSize="12"
+                           HorizontalTextAlignment="Center"/>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Business Hours Notice -->
+            <Frame BackgroundColor="#E3F2FD" 
+                   BorderColor="#2196F3"
+                   Padding="10"
+                   CornerRadius="5">
+                <Label TextColor="#1976D2"
+                       HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="ℹ️ " FontSize="16"/>
+                            <Span Text="Business Hours: Monday-Friday, 8:00 AM - 5:00 PM" 
+                                  FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Frame>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                <Button Text="Schedule" 
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        WidthRequest="120"/>
+
+                <Button Text="Cancel" 
+                        Clicked="CancelClicked"
+                        BackgroundColor="#757575"
+                        TextColor="White"
+                        WidthRequest="120"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

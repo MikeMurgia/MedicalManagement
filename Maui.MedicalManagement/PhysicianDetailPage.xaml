@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.MedicalManagement.PhysicianDetailPage"
+             Title="Physician Details">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="15">
+
+            <Label Text="Physician Information" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <Frame BackgroundColor="#F5F5F5" 
+                   BorderColor="#E0E0E0"
+                   Padding="15"
+                   CornerRadius="10">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Name:" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Physician.Name}" 
+                           Placeholder="Enter physician name"/>
+
+                    <Label Text="License Number:" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Physician.License}" 
+                           Placeholder="Enter license number"/>
+
+                    <Label Text="Graduation Date:" FontAttributes="Bold"/>
+                    <DatePicker Date="{Binding Physician.GraduationDate}" />
+
+                    <Label Text="Specializations:" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Physician.Specializations}" 
+                           Placeholder="Enter specializations (comma-separated)"/>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                <Button Text="Save" 
+                        Clicked="SaveClicked"
+                        BackgroundColor="#2196F3"
+                        TextColor="White"
+                        WidthRequest="120"/>
+
+                <Button Text="Cancel" 
+                        Clicked="CancelClicked"
+                        BackgroundColor="#757575"
+                        TextColor="White"
+                        WidthRequest="120"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

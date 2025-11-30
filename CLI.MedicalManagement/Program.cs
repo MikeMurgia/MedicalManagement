@@ -1,4 +1,5 @@
-﻿using Library.MedicalManagement.Models;
+﻿using Library.MedicalManagement.DTO;
+using Library.MedicalManagement.Models;
 using Library.MedicalManagement.Services;
 using System;
 
@@ -123,7 +124,7 @@ namespace CLI.MedicalManagement
                         }
                         break;
                     case "7":
-                        var appointment = new Appointments();
+                        var appointment = new AppointmentDTO();
                         appointment.StartTime = DateTime.Parse(Console.ReadLine() ?? "12 12 2025 12:00:00");
                         appointment.PatientId = int.Parse(Console.ReadLine() ?? string.Empty);
                         appointment.PhysicianId = int.Parse(Console.ReadLine() ?? string.Empty);
@@ -147,7 +148,7 @@ namespace CLI.MedicalManagement
                         }
                         break;
                     case "9":
-                        AppointmentServiceProxy.Current?.appointments.ForEach(Console.WriteLine);
+                        AppointmentServiceProxy.Current?.Appointments.ForEach(Console.WriteLine);
                         break;
                     case "Q":
                     case "q":

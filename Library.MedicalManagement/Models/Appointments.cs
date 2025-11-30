@@ -12,13 +12,14 @@ namespace Library.MedicalManagement.Models
         public Appointments() 
         { 
             StartTime = DateTime.Now;
+            EndTime = DateTime.Now.AddMinutes(30);
             PatientId = -1;
             PhysicianId = -1;
         }
 
         public int Id { get; set; }
         public DateTime? StartTime { get; set; }
-
+        public DateTime? EndTime { get; set; }
         public int PatientId { get; set; }
         public int PhysicianId { get; set; }
         public Patient? Patient { get; set; }
