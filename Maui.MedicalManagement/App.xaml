@@ -1,14 +1,56 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Maui.MedicalManagement"
+             xmlns:converters="clr-namespace:Maui.MedicalManagement.Converters"
              x:Class="Maui.MedicalManagement.App">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters -->
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
+            <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+
+            <!-- Colors -->
+            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="PrimaryDark">#1976D2</Color>
+            <Color x:Key="Secondary">#4CAF50</Color>
+            <Color x:Key="Danger">#F44336</Color>
+            <Color x:Key="Warning">#FF9800</Color>
+            <Color x:Key="Info">#03A9F4</Color>
+            <Color x:Key="Light">#F5F5F5</Color>
+            <Color x:Key="Dark">#212121</Color>
+
+            <!-- Styles -->
+            <Style TargetType="Button">
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="Padding" Value="10,5"/>
+            </Style>
+
+            <Style TargetType="Frame">
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="PlaceholderColor" Value="Gray"/>
+            </Style>
+
+            <Style TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+
+            <Style TargetType="DatePicker">
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+
+            <Style TargetType="TimePicker">
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
