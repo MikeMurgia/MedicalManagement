@@ -42,10 +42,9 @@ namespace Maui.MedicalManagement
             }
             else
             {
-                // New appointment - set defaults
                 viewModel = new AppointmentViewModel();
                 viewModel.SelectedDate = GetNextWeekday();
-                viewModel.SelectedTime = new TimeSpan(9, 0, 0); // Default 9 AM
+                viewModel.SelectedTime = new TimeSpan(9, 0, 0);
                 BindingContext = viewModel;
             }
         }
@@ -65,7 +64,7 @@ namespace Maui.MedicalManagement
             var confirm = await DisplayAlert("Confirm", "Are you sure you want to cancel? Any unsaved changes will be lost.", "Yes", "No");
             if (confirm)
             {
-                await Shell.Current.GoToAsync("//AppointmentsPage");
+                await Shell.Current.GoToAsync("///AppointmentsPage");
             }
         }
 
@@ -73,7 +72,6 @@ namespace Maui.MedicalManagement
         {
             try
             {
-                // Validate selections
                 if (viewModel.SelectedPatient == null)
                 {
                     await DisplayAlert("Validation", "Please select a patient", "OK");
@@ -98,13 +96,11 @@ namespace Maui.MedicalManagement
                     return;
                 }
 
-                // Set the appointment details
                 viewModel.Model.PatientId = viewModel.SelectedPatient.Id;
                 viewModel.Model.PhysicianId = viewModel.SelectedPhysician.Id;
                 viewModel.Model.StartTime = viewModel.SelectedDate.Value.Date + viewModel.SelectedTime.Value;
                 viewModel.Model.EndTime = viewModel.Model.StartTime.Value.AddMinutes(30);
 
-                // Validate business rules
                 var validation = AppointmentServiceProxy.Current.IsValid(viewModel.Model);
                 if (!validation.success)
                 {
@@ -112,10 +108,9 @@ namespace Maui.MedicalManagement
                     return;
                 }
 
-                // Save the appointment
                 await AppointmentServiceProxy.Current.AddOrUpdate(viewModel.Model);
                 await DisplayAlert("Success", "Appointment scheduled successfully", "OK");
-                await Shell.Current.GoToAsync("//AppointmentsPage");
+                await Shell.Current.GoToAsync("///AppointmentsPage");
             }
             catch (Exception ex)
             {
@@ -174,7 +169,7 @@ namespace Maui.MedicalManagement
                 {
                     AppointmentServiceProxy.Current.Delete(_appointmentId);
                     await DisplayAlert("Success", "Appointment deleted successfully", "OK");
-                    await Shell.Current.GoToAsync("//AppointmentsPage");
+                    await Shell.Current.GoToAsync("///AppointmentsPage");
                 }
                 catch (Exception ex)
                 {
@@ -185,7 +180,6 @@ namespace Maui.MedicalManagement
 
         private void PatientSelectionChanged(object sender, EventArgs e)
         {
-            // Update the model when patient selection changes
             if (viewModel.SelectedPatient != null)
             {
                 viewModel.Model.PatientId = viewModel.SelectedPatient.Id;
@@ -195,20 +189,17 @@ namespace Maui.MedicalManagement
 
         private void PhysicianSelectionChanged(object sender, EventArgs e)
         {
-            // Update the model when physician selection changes
             if (viewModel.SelectedPhysician != null)
             {
                 viewModel.Model.PhysicianId = viewModel.SelectedPhysician.Id;
                 viewModel.Model.PhysicianName = viewModel.SelectedPhysician.Name;
 
-                // Clear available time slots when physician changes
                 viewModel.AvailableTimeSlots?.Clear();
             }
         }
 
         private void DateSelectionChanged(object sender, DateChangedEventArgs e)
         {
-            // Clear available time slots when date changes
             viewModel.AvailableTimeSlots?.Clear();
         }
     }

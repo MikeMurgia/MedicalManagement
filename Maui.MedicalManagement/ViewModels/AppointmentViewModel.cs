@@ -70,7 +70,7 @@ namespace Maui.MedicalManagement.ViewModels
             if (Model?.Id > 0)
             {
                 AppointmentServiceProxy.Current.Delete(Model.Id);
-                Shell.Current.GoToAsync("//AppointmentsPage");
+                Shell.Current.GoToAsync("///AppointmentsPage");
             }
         }
 
@@ -81,7 +81,7 @@ namespace Maui.MedicalManagement.ViewModels
                 return;
             }
             var selectedId = av?.Model?.Id ?? 0;
-            Shell.Current.GoToAsync($"//AppointmentDetail?appointmentId={selectedId}");
+            Shell.Current.GoToAsync($"AppointmentDetail?appointmentId={selectedId}");
         }
 
         private async Task DoSave()
@@ -113,7 +113,7 @@ namespace Maui.MedicalManagement.ViewModels
                 }
 
                 await AppointmentServiceProxy.Current.AddOrUpdate(Model);
-                await Shell.Current.GoToAsync("//AppointmentsPage");
+                await Shell.Current.GoToAsync("///AppointmentsPage");
             }
             catch (Exception ex)
             {

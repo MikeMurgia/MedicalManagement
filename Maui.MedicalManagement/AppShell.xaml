@@ -6,9 +6,48 @@
     xmlns:local="clr-namespace:Maui.MedicalManagement"
     Title="Maui.MedicalManagement">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Flyout Header -->
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="#2196F3" HeightRequest="120" Padding="20">
+            <VerticalStackLayout VerticalOptions="Center">
+                <Label Text="🏥" FontSize="40" TextColor="White" HorizontalOptions="Center"/>
+                <Label Text="Medical Management" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       TextColor="White" 
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Main Navigation Items -->
+    <FlyoutItem Title="Home" Icon="{OnPlatform Default=''}">
+        <ShellContent 
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Patients" Icon="{OnPlatform Default=''}">
+        <ShellContent 
+            Title="Patients"
+            ContentTemplate="{DataTemplate local:PatientsPage}"
+            Route="PatientsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Physicians" Icon="{OnPlatform Default=''}">
+        <ShellContent 
+            Title="Physicians"
+            ContentTemplate="{DataTemplate local:PhysiciansPage}"
+            Route="PhysiciansPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Appointments" Icon="{OnPlatform Default=''}">
+        <ShellContent 
+            Title="Appointments"
+            ContentTemplate="{DataTemplate local:AppointmentsPage}"
+            Route="AppointmentsPage" />
+    </FlyoutItem>
 
 </Shell>
+

@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.MedicalManagement.PatientDetailPage"
-             Title="Patient Details">
+             Title="Patient Details"
+             BackgroundColor="#FAFAFA">
 
     <ScrollView Padding="20">
         <VerticalStackLayout Spacing="15">
@@ -10,27 +11,39 @@
             <Label Text="Patient Information" 
                    FontSize="24" 
                    FontAttributes="Bold"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center"
+                   TextColor="#212121"/>
 
-            <Frame BackgroundColor="#F5F5F5" 
-                   BorderColor="#383838"
+            <Frame BackgroundColor="#FFFFFF" 
+                   BorderColor="#BDBDBD"
                    Padding="15"
-                   CornerRadius="10">
+                   CornerRadius="10"
+                   HasShadow="True">
                 <VerticalStackLayout Spacing="10">
 
-                    <Label Text="Name:" FontAttributes="Bold"/>
+                    <Label Text="Name:" FontAttributes="Bold" TextColor="#424242"/>
                     <Entry Text="{Binding Patient.Name}" 
-                           Placeholder="Enter patient name"/>
+                           Placeholder="Enter patient name"
+                           PlaceholderColor="#9E9E9E"
+                           TextColor="#212121"
+                           BackgroundColor="#FAFAFA"/>
 
-                    <Label Text="Address:" FontAttributes="Bold"/>
+                    <Label Text="Address:" FontAttributes="Bold" TextColor="#424242"/>
                     <Entry Text="{Binding Patient.Address}" 
-                           Placeholder="Enter address"/>
+                           Placeholder="Enter address"
+                           PlaceholderColor="#9E9E9E"
+                           TextColor="#212121"
+                           BackgroundColor="#FAFAFA"/>
 
-                    <Label Text="Birth Date:" FontAttributes="Bold"/>
-                    <DatePicker Date="{Binding Patient.Birthdate}" />
+                    <Label Text="Birth Date:" FontAttributes="Bold" TextColor="#424242"/>
+                    <DatePicker Date="{Binding Patient.Birthdate}" 
+                                TextColor="#212121"
+                                BackgroundColor="#FAFAFA"/>
 
-                    <Label Text="Gender:" FontAttributes="Bold"/>
-                    <Picker SelectedItem="{Binding Patient.Gender}">
+                    <Label Text="Gender:" FontAttributes="Bold" TextColor="#424242"/>
+                    <Picker SelectedItem="{Binding Patient.Gender}"
+                            TextColor="#212121"
+                            BackgroundColor="#FAFAFA">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Male</x:String>
@@ -40,18 +53,27 @@
                         </Picker.ItemsSource>
                     </Picker>
 
-                    <Label Text="Race:" FontAttributes="Bold"/>
+                    <Label Text="Race:" FontAttributes="Bold" TextColor="#424242"/>
                     <Entry Text="{Binding Patient.Race}" 
-                           Placeholder="Enter race"/>
+                           Placeholder="Enter race"
+                           PlaceholderColor="#9E9E9E"
+                           TextColor="#212121"
+                           BackgroundColor="#FAFAFA"/>
 
-                    <Label Text="Diagnoses:" FontAttributes="Bold"/>
+                    <Label Text="Diagnoses:" FontAttributes="Bold" TextColor="#424242"/>
                     <Editor Text="{Binding Diagnoses}" 
                             Placeholder="Enter diagnoses"
+                            PlaceholderColor="#9E9E9E"
+                            TextColor="#212121"
+                            BackgroundColor="#FAFAFA"
                             HeightRequest="100"/>
 
-                    <Label Text="Prescriptions:" FontAttributes="Bold"/>
+                    <Label Text="Prescriptions:" FontAttributes="Bold" TextColor="#424242"/>
                     <Editor Text="{Binding Prescriptions}" 
                             Placeholder="Enter prescriptions"
+                            PlaceholderColor="#9E9E9E"
+                            TextColor="#212121"
+                            BackgroundColor="#FAFAFA"
                             HeightRequest="100"/>
 
                 </VerticalStackLayout>
@@ -60,7 +82,7 @@
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Button Text="Save" 
                         Clicked="SaveClicked"
-                        BackgroundColor="#2196F3"
+                        BackgroundColor="#4CAF50"
                         TextColor="White"
                         WidthRequest="120"/>
 

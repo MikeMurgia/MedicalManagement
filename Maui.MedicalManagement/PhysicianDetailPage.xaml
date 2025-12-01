@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.MedicalManagement.PhysicianDetailPage"
-             Title="Physician Details">
+             Title="Physician Details"
+             BackgroundColor="#FAFAFA">
 
     <ScrollView Padding="20">
         <VerticalStackLayout Spacing="15">
@@ -10,28 +11,41 @@
             <Label Text="Physician Information" 
                    FontSize="24" 
                    FontAttributes="Bold"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center"
+                   TextColor="#212121"/>
 
-            <Frame BackgroundColor="#F5F5F5" 
-                   BorderColor="#E0E0E0"
+            <Frame BackgroundColor="#FFFFFF" 
+                   BorderColor="#BDBDBD"
                    Padding="15"
-                   CornerRadius="10">
+                   CornerRadius="10"
+                   HasShadow="True">
                 <VerticalStackLayout Spacing="10">
 
-                    <Label Text="Name:" FontAttributes="Bold"/>
+                    <Label Text="Name:" FontAttributes="Bold" TextColor="#424242"/>
                     <Entry Text="{Binding Physician.Name}" 
-                           Placeholder="Enter physician name"/>
+                           Placeholder="Enter physician name"
+                           PlaceholderColor="#9E9E9E"
+                           TextColor="#212121"
+                           BackgroundColor="#FAFAFA"/>
 
-                    <Label Text="License Number:" FontAttributes="Bold"/>
+                    <Label Text="License Number:" FontAttributes="Bold" TextColor="#424242"/>
                     <Entry Text="{Binding Physician.License}" 
-                           Placeholder="Enter license number"/>
+                           Placeholder="Enter license number"
+                           PlaceholderColor="#9E9E9E"
+                           TextColor="#212121"
+                           BackgroundColor="#FAFAFA"/>
 
-                    <Label Text="Graduation Date:" FontAttributes="Bold"/>
-                    <DatePicker Date="{Binding Physician.GraduationDate}" />
+                    <Label Text="Graduation Date:" FontAttributes="Bold" TextColor="#424242"/>
+                    <DatePicker Date="{Binding Physician.GraduationDate}" 
+                                TextColor="#212121"
+                                BackgroundColor="#FAFAFA"/>
 
-                    <Label Text="Specializations:" FontAttributes="Bold"/>
+                    <Label Text="Specializations:" FontAttributes="Bold" TextColor="#424242"/>
                     <Entry Text="{Binding Physician.Specializations}" 
-                           Placeholder="Enter specializations (comma-separated)"/>
+                           Placeholder="Enter specializations (comma-separated)"
+                           PlaceholderColor="#9E9E9E"
+                           TextColor="#212121"
+                           BackgroundColor="#FAFAFA"/>
 
                 </VerticalStackLayout>
             </Frame>
@@ -39,7 +53,7 @@
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Button Text="Save" 
                         Clicked="SaveClicked"
-                        BackgroundColor="#2196F3"
+                        BackgroundColor="#4CAF50"
                         TextColor="White"
                         WidthRequest="120"/>
 

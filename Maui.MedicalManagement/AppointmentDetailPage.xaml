@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.MedicalManagement.AppointmentDetailPage"
-             Title="Schedule Appointment">
+             Title="Schedule Appointment"
+             BackgroundColor="#FAFAFA">
 
     <ScrollView Padding="20">
         <VerticalStackLayout Spacing="15">
@@ -10,7 +11,8 @@
             <Label Text="Appointment Details" 
                    FontSize="24" 
                    FontAttributes="Bold"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center"
+                   TextColor="#212121"/>
 
             <!-- Validation Message -->
             <Frame BackgroundColor="{Binding IsValid, Converter={StaticResource BoolToColorConverter}}" 
@@ -22,31 +24,38 @@
                        HorizontalTextAlignment="Center"/>
             </Frame>
 
-            <Frame BackgroundColor="#F5F5F5" 
-                   BorderColor="#E0E0E0"
+            <Frame BackgroundColor="#FFFFFF" 
+                   BorderColor="#BDBDBD"
                    Padding="15"
-                   CornerRadius="10">
+                   CornerRadius="10"
+                   HasShadow="True">
                 <VerticalStackLayout Spacing="15">
 
                     <!-- Patient Selection -->
-                    <Label Text="Select Patient:" FontAttributes="Bold"/>
+                    <Label Text="Select Patient:" FontAttributes="Bold" TextColor="#424242"/>
                     <Picker ItemsSource="{Binding AvailablePatients}"
                             SelectedItem="{Binding SelectedPatient}"
-                            ItemDisplayBinding="{Binding Display}">
+                            ItemDisplayBinding="{Binding Display}"
+                            TextColor="#212121"
+                            BackgroundColor="#FAFAFA">
                     </Picker>
 
                     <!-- Physician Selection -->
-                    <Label Text="Select Physician:" FontAttributes="Bold"/>
+                    <Label Text="Select Physician:" FontAttributes="Bold" TextColor="#424242"/>
                     <Picker ItemsSource="{Binding AvailablePhysicians}"
                             SelectedItem="{Binding SelectedPhysician}"
-                            ItemDisplayBinding="{Binding Display}">
+                            ItemDisplayBinding="{Binding Display}"
+                            TextColor="#212121"
+                            BackgroundColor="#FAFAFA">
                     </Picker>
 
                     <!-- Date Selection -->
-                    <Label Text="Appointment Date:" FontAttributes="Bold"/>
+                    <Label Text="Appointment Date:" FontAttributes="Bold" TextColor="#424242"/>
                     <DatePicker Date="{Binding SelectedDate}" 
                                 MinimumDate="{Binding MinDate}"
-                                Format="D"/>
+                                Format="D"
+                                TextColor="#212121"
+                                BackgroundColor="#FAFAFA"/>
 
                     <!-- Check Availability Button -->
                     <Button Text="Check Available Time Slots" 
@@ -55,16 +64,18 @@
                             TextColor="White"/>
 
                     <!-- Time Selection -->
-                    <Label Text="Select Time:" FontAttributes="Bold"/>
+                    <Label Text="Select Time:" FontAttributes="Bold" TextColor="#424242"/>
                     <Picker ItemsSource="{Binding AvailableTimeSlots}"
-                            SelectedItem="{Binding SelectedTime}">
+                            SelectedItem="{Binding SelectedTime}"
+                            TextColor="#212121"
+                            BackgroundColor="#FAFAFA">
                         <Picker.ItemDisplayBinding>
                             <Binding StringFormat="{}{0:hh\:mm}"/>
                         </Picker.ItemDisplayBinding>
                     </Picker>
 
                     <Label Text="Note: Appointments are 30 minutes long" 
-                           TextColor="Gray"
+                           TextColor="#757575"
                            FontSize="12"
                            HorizontalTextAlignment="Center"/>
 

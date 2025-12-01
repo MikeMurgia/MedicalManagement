@@ -29,7 +29,6 @@ namespace Maui.MedicalManagement
             {
                 Physicians.Clear();
 
-                // Refresh data from service
                 PhysicianServiceProxy.Current.Refresh();
 
                 var physicians = PhysicianServiceProxy.Current.Physicians;
@@ -43,7 +42,6 @@ namespace Maui.MedicalManagement
             }
             catch (Exception ex)
             {
-                // Log error or show message
                 System.Diagnostics.Debug.WriteLine($"Error loading physicians: {ex.Message}");
             }
         }
@@ -122,7 +120,7 @@ namespace Maui.MedicalManagement
                     if (!Physicians.Any())
                     {
                         await DisplayAlert("Search Results", "No physicians found with that specialization", "OK");
-                        LoadPhysicians(); // Reload all physicians
+                        LoadPhysicians();
                     }
                 }
                 catch (Exception ex)
@@ -140,8 +138,7 @@ namespace Maui.MedicalManagement
                 return;
             }
 
-            // Navigate to appointments page filtered by this physician
-            await Shell.Current.GoToAsync($"//AppointmentsPage?physicianId={SelectedPhysician.Model?.Id}");
+            await Shell.Current.GoToAsync($"///AppointmentsPage?physicianId={SelectedPhysician.Model?.Id}");
         }
     }
 }
