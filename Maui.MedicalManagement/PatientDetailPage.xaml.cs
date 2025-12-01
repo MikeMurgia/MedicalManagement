@@ -70,8 +70,6 @@ namespace Maui.MedicalManagement
                 {
                     Patient = patient;
 
-                    // Load diagnoses and prescriptions if they exist in a full Patient model
-                    // This is a placeholder - adjust based on your actual data model
                     var fullPatient = new Patient(patient);
                     Diagnoses = fullPatient.Diagnoses ?? string.Empty;
                     Prescriptions = fullPatient.Prescriptions ?? string.Empty;
@@ -84,13 +82,12 @@ namespace Maui.MedicalManagement
             }
             else
             {
-                // New patient
                 Patient = new PatientDTO
                 {
                     Id = 0,
                     Name = string.Empty,
                     Address = string.Empty,
-                    Birthdate = DateTime.Today.AddYears(-30), // Default age 30
+                    Birthdate = DateTime.Today.AddYears(-30),
                     Gender = "Male",
                     Race = "Other"
                 };
@@ -104,7 +101,6 @@ namespace Maui.MedicalManagement
         {
             try
             {
-                // Validate required fields
                 if (string.IsNullOrWhiteSpace(Patient.Name))
                 {
                     await DisplayAlert("Validation", "Name is required", "OK");
@@ -117,13 +113,12 @@ namespace Maui.MedicalManagement
                     return;
                 }
 
-                // Save the patient
                 var savedPatient = await PatientServiceProxy.Current.AddOrUpdate(Patient);
 
                 if (savedPatient != null)
                 {
                     await DisplayAlert("Success", "Patient saved successfully", "OK");
-                    await Shell.Current.GoToAsync("PatientsPage");
+                    await Shell.Current.GoToAsync("///PatientsPage");
                 }
                 else
                 {
@@ -141,7 +136,7 @@ namespace Maui.MedicalManagement
             var confirm = await DisplayAlert("Confirm", "Are you sure you want to cancel? Any unsaved changes will be lost.", "Yes", "No");
             if (confirm)
             {
-                await Shell.Current.GoToAsync("PatientsPage");
+                await Shell.Current.GoToAsync("///PatientsPage");
             }
         }
 
@@ -163,7 +158,7 @@ namespace Maui.MedicalManagement
                 {
                     PatientServiceProxy.Current.Delete(_patientId);
                     await DisplayAlert("Success", "Patient deleted successfully", "OK");
-                    await Shell.Current.GoToAsync("PatientsPage");
+                    await Shell.Current.GoToAsync("///PatientsPage");
                 }
                 catch (Exception ex)
                 {

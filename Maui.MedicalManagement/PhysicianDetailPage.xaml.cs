@@ -50,13 +50,12 @@ namespace Maui.MedicalManagement
             }
             else
             {
-                // New physician
                 Physician = new PhysicianDTO
                 {
                     Id = 0,
                     Name = string.Empty,
                     License = string.Empty,
-                    GraduationDate = DateTime.Today.AddYears(-10), // Default 10 years ago
+                    GraduationDate = DateTime.Today.AddYears(-10),
                     Specializations = string.Empty
                 };
                 BindingContext = this;
@@ -67,7 +66,6 @@ namespace Maui.MedicalManagement
         {
             try
             {
-                // Validate required fields
                 if (string.IsNullOrWhiteSpace(Physician.Name))
                 {
                     await DisplayAlert("Validation", "Name is required", "OK");
@@ -80,20 +78,18 @@ namespace Maui.MedicalManagement
                     return;
                 }
 
-                // Check if license number format is valid (basic check)
                 if (Physician.License.Length < 5)
                 {
                     await DisplayAlert("Validation", "License number must be at least 5 characters", "OK");
                     return;
                 }
 
-                // Save the physician
                 var savedPhysician = await PhysicianServiceProxy.Current.AddOrUpdate(Physician);
 
                 if (savedPhysician != null)
                 {
                     await DisplayAlert("Success", "Physician saved successfully", "OK");
-                    await Shell.Current.GoToAsync("PhysiciansPage");
+                    await Shell.Current.GoToAsync("///PhysiciansPage");
                 }
                 else
                 {
@@ -111,7 +107,7 @@ namespace Maui.MedicalManagement
             var confirm = await DisplayAlert("Confirm", "Are you sure you want to cancel? Any unsaved changes will be lost.", "Yes", "No");
             if (confirm)
             {
-                await Shell.Current.GoToAsync("PhysiciansPage");
+                await Shell.Current.GoToAsync("///PhysiciansPage");
             }
         }
 
@@ -133,7 +129,7 @@ namespace Maui.MedicalManagement
                 {
                     PhysicianServiceProxy.Current.Delete(_physicianId);
                     await DisplayAlert("Success", "Physician deleted successfully", "OK");
-                    await Shell.Current.GoToAsync("PhysiciansPage");
+                    await Shell.Current.GoToAsync("///PhysiciansPage");
                 }
                 catch (Exception ex)
                 {

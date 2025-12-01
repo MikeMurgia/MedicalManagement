@@ -41,12 +41,10 @@ namespace Maui.MedicalManagement
             {
                 Appointments.Clear();
 
-                // Refresh to get latest data
                 AppointmentServiceProxy.Current.Refresh();
 
                 var appointments = AppointmentServiceProxy.Current.Appointments;
 
-                // Filter by physician if specified
                 if (_physicianIdFilter > 0)
                 {
                     appointments = appointments.Where(a => a?.PhysicianId == _physicianIdFilter).ToList();
@@ -60,7 +58,6 @@ namespace Maui.MedicalManagement
                     }
                 }
 
-                // Sort by date and time
                 var sorted = Appointments.OrderBy(a => a.Model?.StartTime).ToList();
                 Appointments.Clear();
                 foreach (var item in sorted)
@@ -76,7 +73,7 @@ namespace Maui.MedicalManagement
 
         private async void AddClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//AppointmentDetail?appointmentId=0");
+            await Shell.Current.GoToAsync("AppointmentDetail?appointmentId=0");
         }
 
         private void RefreshClicked(object sender, EventArgs e)
@@ -93,7 +90,7 @@ namespace Maui.MedicalManagement
             }
 
             var selectedId = SelectedAppointment?.Model?.Id ?? 0;
-            await Shell.Current.GoToAsync($"//AppointmentDetail?appointmentId={selectedId}");
+            await Shell.Current.GoToAsync($"AppointmentDetail?appointmentId={selectedId}");
         }
 
         private async void CancelAppointmentClicked(object sender, EventArgs e)
@@ -187,7 +184,7 @@ namespace Maui.MedicalManagement
 
         private void ViewAllClicked(object sender, EventArgs e)
         {
-            _physicianIdFilter = 0; // Clear any filter
+            _physicianIdFilter = 0;
             LoadAppointments();
         }
 
@@ -201,7 +198,6 @@ namespace Maui.MedicalManagement
                     .OrderBy(a => a?.StartTime)
                     .ToList();
 
-                // Check for double-bookings
                 for (int i = 0; i < appointments.Count - 1; i++)
                 {
                     for (int j = i + 1; j < appointments.Count; j++)

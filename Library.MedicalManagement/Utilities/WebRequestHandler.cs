@@ -10,7 +10,7 @@ namespace Library.MedicalManagement.Utilities
     public class WebRequestHandler
     {
         private string host = "localhost";
-        private string port = "7009";
+        private string port = "7104";
         private HttpClient Client { get; }
         public WebRequestHandler()
         {

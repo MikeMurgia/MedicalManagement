@@ -22,12 +22,11 @@ namespace Maui.MedicalManagement
 
         private async void AddClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("Patient?PatientId=0");
+            await Shell.Current.GoToAsync("PatientDetail?patientId=0");
         }
 
         private void SearchClicked(object sender, EventArgs e)
         {
-            // Check if SearchEntry exists in XAML, if not use a different approach
             var searchEntry = this.FindByName<Entry>("SearchEntry");
             if (searchEntry != null)
             {
@@ -73,7 +72,7 @@ namespace Maui.MedicalManagement
             var selectedId = viewModel?.SelectedPatient?.Model?.Id ?? 0;
             if (selectedId > 0)
             {
-                await Shell.Current.GoToAsync($"Patient?PatientId={selectedId}");
+                await Shell.Current.GoToAsync($"PatientDetail?patientId={selectedId}");
             }
             else
             {

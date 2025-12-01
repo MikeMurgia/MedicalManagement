@@ -35,7 +35,7 @@ namespace Maui.MedicalManagement.ViewModels
             if (Model?.Id > 0)
             {
                 PatientServiceProxy.Current.Delete(Model.Id);
-                Shell.Current.GoToAsync("//MainPage");
+                Shell.Current.GoToAsync("///PatientsPage");
             }
         }
 
@@ -46,7 +46,7 @@ namespace Maui.MedicalManagement.ViewModels
                 return;
             }
             var selectedId = bv?.Model?.Id ?? 0;
-            Shell.Current.GoToAsync($"//Patient?patientId={selectedId}");
+            Shell.Current.GoToAsync($"PatientDetail?patientId={selectedId}");
         }
 
         public PatientDTO? Model { get; set; }

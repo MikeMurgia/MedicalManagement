@@ -22,7 +22,7 @@ namespace Maui.MedicalManagement
         // Quick Action Button Handlers
         private async void AddPatientClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("Patient?PatientId=0");
+            await Shell.Current.GoToAsync("PatientDetail?patientId=0");
         }
 
         private async void ScheduleAppointmentClicked(object sender, EventArgs e)
@@ -32,17 +32,17 @@ namespace Maui.MedicalManagement
 
         private async void ManagePatientsClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("PatientsPage");
+            await Shell.Current.GoToAsync("///PatientsPage");
         }
 
         private async void ManagePhysiciansClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("PhysiciansPage");
+            await Shell.Current.GoToAsync("///PhysiciansPage");
         }
 
         private async void ViewAppointmentsClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("AppointmentsPage");
+            await Shell.Current.GoToAsync("///AppointmentsPage");
         }
 
         private async void AddPhysicianClicked(object sender, EventArgs e)
@@ -52,17 +52,17 @@ namespace Maui.MedicalManagement
 
         private async void ViewPatientsClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("PatientsPage");
+            await Shell.Current.GoToAsync("///PatientsPage");
         }
 
         private async void ViewTodaysScheduleClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("AppointmentsPage");
+            await Shell.Current.GoToAsync("///AppointmentsPage");
         }
 
         private async void ViewAllPatientsClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("PatientsPage");
+            await Shell.Current.GoToAsync("///PatientsPage");
         }
 
         private void RefreshClicked(object sender, EventArgs e)
@@ -78,17 +78,17 @@ namespace Maui.MedicalManagement
         // Navigation Card Tap Handlers
         private async void PatientCardTapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("PatientsPage");
+            await Shell.Current.GoToAsync("///PatientsPage");
         }
 
         private async void PhysicianCardTapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("PhysiciansPage");
+            await Shell.Current.GoToAsync("///PhysiciansPage");
         }
 
         private async void AppointmentCardTapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("AppointmentsPage");
+            await Shell.Current.GoToAsync("///AppointmentsPage");
         }
 
         private async void ImportExportCardTapped(object sender, EventArgs e)

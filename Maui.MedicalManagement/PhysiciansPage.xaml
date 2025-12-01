@@ -3,85 +3,88 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.MedicalManagement.PhysiciansPage"
              Title="Physicians"
+             BackgroundColor="#FFFFFF"
              NavigatedTo="ContentPage_NavigatedTo">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="10">
+	<Grid RowDefinitions="Auto,*,Auto" Padding="10">
 
-        <!-- Header with Add Button -->
-        <HorizontalStackLayout Grid.Row="0" 
-                               HorizontalOptions="End" 
+		<!-- Header with Add Button -->
+		<HorizontalStackLayout Grid.Row="0"
+                               HorizontalOptions="End"
                                Margin="0,10">
-            <Button Text="Add New Physician" 
+			<Button Text="Add New Physician"
                     Clicked="AddClicked"
                     BackgroundColor="#4CAF50"
                     TextColor="White"/>
-        </HorizontalStackLayout>
+		</HorizontalStackLayout>
 
-        <!-- Physicians List -->
-        <CollectionView Grid.Row="1" 
+		<!-- Physicians List -->
+		<CollectionView Grid.Row="1"
                         ItemsSource="{Binding Physicians}"
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedPhysician}"
                         Margin="0,10">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame Margin="5" 
-                           Padding="15" 
-                           BackgroundColor="#F5F5F5"
-                           BorderColor="#E0E0E0"
-                           CornerRadius="10">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <VerticalStackLayout Grid.Column="0" Spacing="5">
-                                <Label Text="{Binding Model.Display}" 
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<Frame Margin="5"
+                           Padding="15"
+                           BackgroundColor="#FFFFFF"
+                           BorderColor="#BDBDBD"
+                           CornerRadius="10"
+                           HasShadow="True">
+						<Grid ColumnDefinitions="*,Auto">
+							<VerticalStackLayout Grid.Column="0" Spacing="5">
+								<Label Text="{Binding Model.Display}"
                                        FontAttributes="Bold"
-                                       FontSize="16"/>
-                                <HorizontalStackLayout Spacing="10">
-                                    <Label Text="License:" 
-                                           TextColor="Gray" 
+                                       FontSize="16"
+                                       TextColor="#212121"/>
+								<HorizontalStackLayout Spacing="10">
+									<Label Text="License:"
+                                           TextColor="#757575"
                                            FontSize="12"/>
-                                    <Label Text="{Binding Model.License}" 
-                                           TextColor="Gray" 
+									<Label Text="{Binding Model.License}"
+                                           TextColor="#424242"
                                            FontSize="12"
                                            FontAttributes="Bold"/>
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout Spacing="10">
-                                    <Label Text="Graduation:" 
-                                           TextColor="Gray" 
+								</HorizontalStackLayout>
+								<HorizontalStackLayout Spacing="10">
+									<Label Text="Graduation:"
+                                           TextColor="#757575"
                                            FontSize="12"/>
-                                    <Label Text="{Binding Model.GraduationDate, StringFormat='{0:MM/dd/yyyy}'}" 
-                                           TextColor="Gray" 
+									<Label Text="{Binding Model.GraduationDate, StringFormat='{0:MM/dd/yyyy}'}"
+                                           TextColor="#757575"
                                            FontSize="12"/>
-                                </HorizontalStackLayout>
-                                <Label Text="{Binding Model.Specializations}" 
-                                       TextColor="#2196F3" 
+								</HorizontalStackLayout>
+								<Label Text="{Binding Model.Specializations}"
+                                       TextColor="#1976D2"
                                        FontSize="12"
                                        FontAttributes="Italic"/>
-                            </VerticalStackLayout>
+							</VerticalStackLayout>
 
-                            <HorizontalStackLayout Grid.Column="1" 
+							<HorizontalStackLayout Grid.Column="1"
                                                    Spacing="5"
                                                    VerticalOptions="Center">
-                                <Button Text="Edit" 
+								<Button Text="Edit"
                                         Command="{Binding EditCommand}"
                                         CommandParameter="{Binding .}"
                                         BackgroundColor="#2196F3"
                                         TextColor="White"
                                         Padding="10,5"/>
-                                <Button Text="Delete" 
+								<Button Text="Delete"
                                         Command="{Binding DeleteCommand}"
                                         BackgroundColor="#F44336"
                                         TextColor="White"
                                         Padding="10,5"/>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+							</HorizontalStackLayout>
+						</Grid>
+					</Frame>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
 
-        <!-- Refresh Button -->
-        <Button Grid.Row="2" 
-                Text="Refresh" 
+		<!-- Refresh Button -->
+		<Button Grid.Row="2"
+                Text="Refresh"
                 Clicked="RefreshClicked"
                 BackgroundColor="#FF9800"
                 TextColor="White"
@@ -89,6 +92,6 @@
                 WidthRequest="150"
                 Margin="0,10"/>
 
-    </Grid>
+	</Grid>
 
 </ContentPage>
