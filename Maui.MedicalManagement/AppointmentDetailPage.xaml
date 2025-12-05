@@ -15,20 +15,20 @@
                    TextColor="#212121"/>
 
             <!-- Validation Message -->
-            <Frame BackgroundColor="{Binding IsValid, Converter={StaticResource BoolToColorConverter}}" 
-                   BorderColor="Transparent"
+            <Border BackgroundColor="{Binding IsValid, x:DataType=Line, Converter={StaticResource BoolToColorConverter}}" 
+                   Stroke="Transparent"
                    Padding="10"
                    IsVisible="{Binding ValidationMessage, Converter={StaticResource StringToBoolConverter}}">
                 <Label Text="{Binding ValidationMessage}" 
                        TextColor="White"
                        HorizontalTextAlignment="Center"/>
-            </Frame>
+            </Border>
 
-            <Frame BackgroundColor="#FFFFFF" 
-                   BorderColor="#BDBDBD"
+            <Border BackgroundColor="#FFFFFF" 
+                   Stroke="#BDBDBD"
                    Padding="15"
-                   CornerRadius="10"
-                   HasShadow="True">
+                   StrokeShape="RoundRectangle 10"
+                   Shadow="True">
                 <VerticalStackLayout Spacing="15">
 
                     <!-- Patient Selection -->
@@ -80,13 +80,13 @@
                            HorizontalTextAlignment="Center"/>
 
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- Business Hours Notice -->
-            <Frame BackgroundColor="#E3F2FD" 
-                   BorderColor="#2196F3"
+            <Border BackgroundColor="#E3F2FD" 
+                   Stroke="#2196F3"
                    Padding="10"
-                   CornerRadius="5">
+                   StrokeShape="RoundRectangle 5">
                 <Label TextColor="#1976D2"
                        HorizontalTextAlignment="Center">
                     <Label.FormattedText>
@@ -97,7 +97,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-            </Frame>
+            </Border>
 
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Button Text="Schedule" 

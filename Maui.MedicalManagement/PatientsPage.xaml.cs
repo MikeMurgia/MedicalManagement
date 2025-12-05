@@ -25,6 +25,7 @@ namespace Maui.MedicalManagement
             await Shell.Current.GoToAsync("PatientDetail?patientId=0");
         }
 
+        //use wordpress as model->move a lot of this into viewmodel
         private void SearchClicked(object sender, EventArgs e)
         {
             var searchEntry = this.FindByName<Entry>("SearchEntry");

@@ -29,7 +29,7 @@ namespace Maui.MedicalManagement
             {
                 Physicians.Clear();
 
-                PhysicianServiceProxy.Current.Refresh();
+                //PhysicianServiceProxy.Current.Refresh();
 
                 var physicians = PhysicianServiceProxy.Current.Physicians;
                 foreach (var physician in physicians)

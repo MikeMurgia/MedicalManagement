@@ -30,6 +30,7 @@ namespace Library.MedicalManagement.Utilities
                 }
             } catch(Exception e)
             {
+                System.Diagnostics.Debug.WriteLine($"Error getting url: {e.Message}");
 
             }
 
@@ -61,6 +62,7 @@ namespace Library.MedicalManagement.Utilities
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine($"Error deleting url: {e.Message}");
 
             }
 

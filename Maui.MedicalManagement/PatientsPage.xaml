@@ -14,8 +14,7 @@
                    Placeholder="Search patients..." 
                    PlaceholderColor="#9E9E9E"
                    TextColor="#212121"
-                   BackgroundColor="#FAFAFA"
-                   HorizontalOptions="FillAndExpand"/>
+                   BackgroundColor="#FAFAFA"/>
             <Button Text="Search" 
                     Clicked="SearchClicked"
                     BackgroundColor="#2196F3"
@@ -34,12 +33,12 @@
                         Margin="0,10">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Margin="5" 
+                    <Border Margin="5" 
                            Padding="10" 
                            BackgroundColor="#FFFFFF"
-                           BorderColor="#BDBDBD"
-                           CornerRadius="8"
-                           HasShadow="True">
+                           Stroke="#BDBDBD"
+                           StrokeShape="RoundRectangle 8"
+                           Shadow="True">
                         <Grid ColumnDefinitions="*,Auto">
                             <VerticalStackLayout Grid.Column="0">
                                 <Label Text="{Binding Model.Display}" 
@@ -75,7 +74,7 @@
                                         FontSize="12"/>
                             </HorizontalStackLayout>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

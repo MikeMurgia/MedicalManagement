@@ -17,31 +17,37 @@ namespace Library.MedicalManagement.Services
 
         private PhysicianServiceProxy()
         {
-            physicianList = new List<PhysicianDTO?>();
-            var physicianResponse = new WebRequestHandler().Get("/Physicians").Result;
-            if (physicianResponse != null)
+            physicianList = new List<PhysicianDTO?>
             {
-                var physicians = JsonConvert.DeserializeObject<List<Physician?>>(physicianResponse) ?? new List<Physician?>();
-                physicianList = physicians
-                    .Where(p => p != null)
-                    .Select(p => new PhysicianDTO(p!))
-                    .Cast<PhysicianDTO?>()
-                    .ToList();
-            }
+                //Examples:
+                new PhysicianDTO
+                {
+                    Id = 1,
+                    Name = "Dr. John Smith",
+                    License = "MD12345",
+                    GraduationDate = DateTime.Today.AddYears(-15),
+                    Specializations = "General Practice"
+                },
+                new PhysicianDTO
+                {
+                    Id = 2,
+                    Name = "Dr. Sarah Johnson",
+                    License = "MD67890",
+                    GraduationDate = DateTime.Today.AddYears(-10),
+                    Specializations = "Cardiology"
+                },
+                new PhysicianDTO
+                {
+                    Id = 3,
+                    Name = "Dr. Michael Chen",
+                    License = "MD11111",
+                    GraduationDate = DateTime.Today.AddYears(-8),
+                    Specializations = "Pediatrics"
+                }
+            };
         }
-        public void Refresh()
-        {
-            var physicianResponse = new WebRequestHandler().Get("/Physicians").Result;
-            if (physicianResponse != null)
-            {
-                var physicians = JsonConvert.DeserializeObject<List<Physician?>>(physicianResponse) ?? new List<Physician?>();
-                physicianList = physicians
-                    .Where(p => p != null)
-                    .Select(p => new PhysicianDTO(p!))
-                    .Cast<PhysicianDTO?>()
-                    .ToList();
-            }
-        }
+
+        //Refresh not needed
 
         private static PhysicianServiceProxy? instance;
         private static object instanceLock = new object();
@@ -69,69 +75,67 @@ namespace Library.MedicalManagement.Services
             }
         }
 
-        public async Task<PhysicianDTO?> AddOrUpdate(PhysicianDTO? physicianDto)
+        public Task<PhysicianDTO?> AddOrUpdate(PhysicianDTO? physicianDto)
         {
             if (physicianDto == null)
             {
-                return null;
+                return Task.FromResult<PhysicianDTO?>(null);
             }
-
-            // Convert DTO to Model for API call
-            var physician = new Physician
-            {
-                Id = physicianDto.Id,
-                Name = physicianDto.Name ?? string.Empty,
-                License = physicianDto.License ?? string.Empty,
-                GraduationDate = physicianDto.GraduationDate,
-                Specializations = physicianDto.Specializations ?? string.Empty
-            };
-
-            var physicianPayload = await new WebRequestHandler().Post("/Physicians", physician);
-            var physicianFromServer = JsonConvert.DeserializeObject<Physician>(physicianPayload);
-
-            // Convert back to DTO
-            var physicianDtoFromServer = physicianFromServer != null ? new PhysicianDTO(physicianFromServer) : null;
 
             if (physicianDto.Id <= 0)
             {
-                physicianList.Add(physicianDtoFromServer);
+                // New physician
+                physicianDto.Id = physicianList.Any()
+                    ? physicianList.Where(p => p != null).Max(p => p!.Id) + 1
+                    : 1;
+                physicianList.Add(physicianDto);
             }
             else
             {
-                var physicianToEdit = Physicians.FirstOrDefault(p => (p?.Id ?? 0) == physicianDto.Id);
-                if (physicianToEdit != null)
+                //Update existing
+                var existing = physicianList.FirstOrDefault(p => p?.Id == physicianDto.Id);
+                if (existing != null)
                 {
-                    var index = Physicians.IndexOf(physicianToEdit);
-                    Physicians.RemoveAt(index);
-                    physicianList.Insert(index, physicianDtoFromServer);
+                    var index = physicianList.IndexOf(existing);
+                    physicianList.RemoveAt(index);
+                    physicianList.Insert(index, physicianDto);
+                }
+                else
+                {
+                    physicianList.Add(physicianDto);
                 }
             }
 
-            return physicianDtoFromServer;
+            return Task.FromResult<PhysicianDTO?>(physicianDto);
         }
 
         public PhysicianDTO? Delete(int id)
         {
-            var response = new WebRequestHandler().Delete($"/Physicians/{id}").Result;
             var physicianToDelete = physicianList
                 .Where(p => p != null)
-                .FirstOrDefault(p => (p?.Id ?? -1) == id);
-            physicianList.Remove(physicianToDelete);
+                .FirstOrDefault(p => p!.Id == id);
+
+            if (physicianToDelete != null)
+            {
+                physicianList.Remove(physicianToDelete);
+            }
+
             return physicianToDelete;
         }
 
-        public async Task<List<PhysicianDTO>> Search(QueryRequest query)
+        public Task<List<PhysicianDTO>> Search(QueryRequest query)
         {
-            var physicianPayload = await new WebRequestHandler().Post("/Physicians/Search", query);
-            var physiciansFromServer = JsonConvert.DeserializeObject<List<PhysicianDTO?>>(physicianPayload);
+            var searchTerm = query.Content?.ToUpper() ?? string.Empty;
 
-            if (physiciansFromServer != null)
-            {
-                physicianList = physiciansFromServer;
-                return physiciansFromServer.Where(p => p != null).Cast<PhysicianDTO>().ToList();
-            }
+            var results = physicianList
+                .Where(p => p != null &&
+                    ((p.Name?.ToUpper().Contains(searchTerm) ?? false) ||
+                     (p.Specializations?.ToUpper().Contains(searchTerm) ?? false) ||
+                     (p.License?.ToUpper().Contains(searchTerm) ?? false)))
+                .Cast<PhysicianDTO>()
+                .ToList();
 
-            return new List<PhysicianDTO>();
+            return Task.FromResult(results);
         }
     }
 }

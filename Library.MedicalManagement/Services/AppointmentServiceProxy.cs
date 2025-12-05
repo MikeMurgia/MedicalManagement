@@ -61,42 +61,56 @@ public class AppointmentServiceProxy
     private AppointmentServiceProxy()
     {
         appointmentsList = new List<AppointmentDTO?>();
-        Refresh();
+
+        // Examples:
+        var today = DateTime.Today;
+        if (today.DayOfWeek == DayOfWeek.Saturday)
+            today = today.AddDays(2);
+        else if (today.DayOfWeek == DayOfWeek.Sunday)
+            today = today.AddDays(1);
+
+        appointmentsList.Add(new AppointmentDTO
+        {
+            Id = 1,
+            StartTime = today.AddHours(9),
+            EndTime = today.AddHours(9).AddMinutes(30),
+            PatientId = 1,
+            PhysicianId = 1,
+            PatientName = "person one",
+            PhysicianName = "Dr. John Smith"
+        });
+
+        appointmentsList.Add(new AppointmentDTO
+        {
+            Id = 2,
+            StartTime = today.AddHours(10),
+            EndTime = today.AddHours(10).AddMinutes(30),
+            PatientId = 2,
+            PhysicianId = 2,
+            PatientName = "person two",
+            PhysicianName = "Dr. Sarah Johnson"
+        });
     }
 
     public void Refresh()
     {
-        var appointmentsResponse = new WebRequestHandler().Get("/Appointments").Result;
-        if (appointmentsResponse != null)
+        foreach (var appointment in appointmentsList.Where(a => a != null))
         {
-            var appointments = JsonConvert.DeserializeObject<List<Appointments?>>(appointmentsResponse) ?? new List<Appointments?>();
-            appointmentsList = appointments
-                .Where(a => a != null)
-                .Select(a => new AppointmentDTO(a!))
-                .Cast<AppointmentDTO?>()
-                .ToList();
-
-            // Load patient and physician details for each appointment
-            foreach (var appointment in appointmentsList.Where(a => a != null))
+            if (appointment!.PatientId > 0)
             {
-                if (appointment!.PatientId > 0)
+                var patient = PatientServiceProxy.Current.patients.FirstOrDefault(p => p?.Id == appointment.PatientId);
+                if (patient != null)
                 {
-                    var patient = PatientServiceProxy.Current.patients.FirstOrDefault(p => p?.Id == appointment.PatientId);
-                    if (patient != null)
-                    {
-                        appointment.Patient = patient;
-                        appointment.PatientName = patient.Name;
-                    }
+                    appointment.PatientName = patient.Name;
                 }
+            }
 
-                if (appointment.PhysicianId > 0)
+            if (appointment.PhysicianId > 0)
+            {
+                var physician = PhysicianServiceProxy.Current.Physicians.FirstOrDefault(p => p?.Id == appointment.PhysicianId);
+                if (physician != null)
                 {
-                    var physician = PhysicianServiceProxy.Current.Physicians.FirstOrDefault(p => p?.Id == appointment.PhysicianId);
-                    if (physician != null)
-                    {
-                        appointment.Physician = physician;
-                        appointment.PhysicianName = physician.Name;
-                    }
+                    appointment.PhysicianName = physician.Name;
                 }
             }
         }
@@ -128,11 +142,11 @@ public class AppointmentServiceProxy
         }
     }
 
-    public async Task<AppointmentDTO?> AddOrUpdate(AppointmentDTO? appointmentDto)
+    public Task<AppointmentDTO?> AddOrUpdate(AppointmentDTO? appointmentDto)
     {
         if (appointmentDto == null)
         {
-            return null;
+            return Task.FromResult<AppointmentDTO?>(null);
         }
 
         // Validate before saving
@@ -142,49 +156,51 @@ public class AppointmentServiceProxy
             throw new InvalidOperationException(validation.message);
         }
 
-        // Convert DTO to Model for API call
-        var appointment = new Appointments
-        {
-            Id = appointmentDto.Id,
-            StartTime = appointmentDto.StartTime,
-            PatientId = appointmentDto.PatientId,
-            PhysicianId = appointmentDto.PhysicianId
-        };
+        // Get patient and physician names
+        var patient = PatientServiceProxy.Current.patients.FirstOrDefault(p => p?.Id == appointmentDto.PatientId);
+        var physician = PhysicianServiceProxy.Current.Physicians.FirstOrDefault(p => p?.Id == appointmentDto.PhysicianId);
 
-        var appointmentPayload = await new WebRequestHandler().Post("/Appointments", appointment);
-        var appointmentFromServer = JsonConvert.DeserializeObject<Appointments>(appointmentPayload);
-
-        // Convert back to DTO
-        var appointmentDtoFromServer = appointmentFromServer != null ? new AppointmentDTO(appointmentFromServer) : null;
+        appointmentDto.PatientName = patient?.Name;
+        appointmentDto.PhysicianName = physician?.Name;
 
         if (appointmentDto.Id <= 0)
         {
-            appointmentsList.Add(appointmentDtoFromServer);
+            // New appointment
+            appointmentDto.Id = appointmentsList.Any()
+                ? appointmentsList.Where(a => a != null).Max(a => a!.Id) + 1
+                : 1;
+            appointmentsList.Add(appointmentDto);
         }
         else
         {
-            var appointmentToEdit = Appointments.FirstOrDefault(a => (a?.Id ?? 0) == appointmentDto.Id);
-            if (appointmentToEdit != null)
+            // Update existing
+            var existing = appointmentsList.FirstOrDefault(a => a?.Id == appointmentDto.Id);
+            if (existing != null)
             {
-                var index = Appointments.IndexOf(appointmentToEdit);
-                Appointments.RemoveAt(index);
-                appointmentsList.Insert(index, appointmentDtoFromServer);
+                var index = appointmentsList.IndexOf(existing);
+                appointmentsList.RemoveAt(index);
+                appointmentsList.Insert(index, appointmentDto);
+            }
+            else
+            {
+                appointmentsList.Add(appointmentDto);
             }
         }
 
-        // Refresh to get updated data with patient/physician details
-        Refresh();
-
-        return appointmentDtoFromServer;
+        return Task.FromResult<AppointmentDTO?>(appointmentDto);
     }
 
     public AppointmentDTO? Delete(int id)
     {
-        var response = new WebRequestHandler().Delete($"/Appointments/{id}").Result;
         var appointmentToDelete = appointmentsList
             .Where(a => a != null)
-            .FirstOrDefault(a => (a?.Id ?? -1) == id);
-        appointmentsList.Remove(appointmentToDelete);
+            .FirstOrDefault(a => a!.Id == id);
+
+        if (appointmentToDelete != null)
+        {
+            appointmentsList.Remove(appointmentToDelete);
+        }
+
         return appointmentToDelete;
     }
 
@@ -214,7 +230,7 @@ public class AppointmentServiceProxy
             {
                 availableSlots.Add(currentSlot);
             }
-            currentSlot = currentSlot.AddMinutes(30); // 30-minute slots
+            currentSlot = currentSlot.AddMinutes(30);
         }
 
         return availableSlots;
