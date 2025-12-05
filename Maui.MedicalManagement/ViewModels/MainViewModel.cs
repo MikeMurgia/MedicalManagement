@@ -111,8 +111,6 @@ namespace Maui.MedicalManagement.ViewModels
                 Refresh();
             }
 
-            //var patientString = File.ReadAllText(ImportPath);
-
         }
 
         public string ImportPath { get; set; }

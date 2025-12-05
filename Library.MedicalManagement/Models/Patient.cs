@@ -37,6 +37,8 @@ namespace Library.MedicalManagement.Models
             Birthdate = DateTime.MinValue;
             Race = string.Empty;
             Gender = string.Empty;
+            Diagnoses = string.Empty;
+            Prescriptions = string.Empty;
         }
         public Patient(PatientDTO p)
         {
@@ -46,11 +48,13 @@ namespace Library.MedicalManagement.Models
             Race = p.Race;
             Gender = p.Gender;
             Id = p.Id;
+            Diagnoses = p.Diagnoses;
+            Prescriptions = p.Prescriptions;
         }
 
         public override string ToString()
         {
-            return $"[{Id}] | {Name} | {Gender} | {Race} | DOB: {Birthdate} | {Address}";
+            return $"[{Id}] | {Name} | {Gender} | {Race} | DOB: {Birthdate} | {Address} | {Diagnoses} | {Prescriptions}";
         }
     }
 }

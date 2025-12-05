@@ -11,8 +11,8 @@ namespace Maui.MedicalManagement
     {
         private int _patientId;
         private PatientDTO _patient;
-        private string _diagnoses;
-        private string _prescriptions;
+        //private string _diagnoses;
+        //private string _prescriptions;
 
         public int PatientId
         {
@@ -34,7 +34,7 @@ namespace Maui.MedicalManagement
             }
         }
 
-        public string Diagnoses
+        /*public string Diagnoses
         {
             get => _diagnoses;
             set
@@ -52,7 +52,7 @@ namespace Maui.MedicalManagement
                 _prescriptions = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
         public PatientDetailPage()
         {
@@ -71,13 +71,13 @@ namespace Maui.MedicalManagement
                     Patient = patient;
 
                     var fullPatient = new Patient(patient);
-                    Diagnoses = fullPatient.Diagnoses ?? string.Empty;
-                    Prescriptions = fullPatient.Prescriptions ?? string.Empty;
+                    //Diagnoses = fullPatient.Diagnoses ?? string.Empty;
+                    //Prescriptions = fullPatient.Prescriptions ?? string.Empty;
 
                     BindingContext = this;
                     OnPropertyChanged(nameof(Patient));
-                    OnPropertyChanged(nameof(Diagnoses));
-                    OnPropertyChanged(nameof(Prescriptions));
+                    //OnPropertyChanged(nameof(Diagnoses));
+                    //OnPropertyChanged(nameof(Prescriptions));
                 }
             }
             else
@@ -91,7 +91,7 @@ namespace Maui.MedicalManagement
                     Gender = "Male",
                     Race = "Other",
                     Diagnoses = string.Empty,
-                    Prescription = string.Empty
+                    Prescriptions = string.Empty
                 };
 
                 BindingContext = this;
