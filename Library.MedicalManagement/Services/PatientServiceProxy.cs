@@ -75,9 +75,9 @@ public class PatientServiceProxy
             return null;
         }
 
-        var patient = new Patient(patientDTO);
+        //var patient = new Patient(patientDTO);
 
-        var patPayload = await new WebRequestHandler().Post("/Patients", patient);
+        var patPayload = await new WebRequestHandler().Post("/Patients", patientDTO);
         var patFromServer = JsonConvert.DeserializeObject<Patient>(patPayload);
         var patDTOFromServer = patFromServer != null ? new PatientDTO(patFromServer) : null;
 
@@ -126,15 +126,9 @@ public class PatientServiceProxy
         var patPayload = await new WebRequestHandler().Post("/Patient/Search", query);
         var patFromServer = JsonConvert.DeserializeObject<List<PatientDTO?>>(patPayload);
 
-        // Update the local list with search results
-        if (patFromServer != null)
-        {
-            patientList = patFromServer;
-            // Return non-nullable list
-            return patFromServer.Where(p => p != null).Cast<PatientDTO>().ToList();
-        }
+        patientList = patFromServer;
+        return patientList;
 
-        return new List<PatientDTO>();
     }
 }
 

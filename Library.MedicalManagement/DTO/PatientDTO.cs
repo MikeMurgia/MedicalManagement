@@ -1,4 +1,5 @@
 ﻿using Library.MedicalManagement.Models;
+using Library.MedicalManagement.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Library.MedicalManagement.DTO
         public string? Address { get; set; }
         public string? Race { get; set; }
         public string? Gender { get; set; }
-        public string? Prescription { get; set; }
+        public string? Prescriptions { get; set; }
         public string? Diagnoses { get; set; }
 
         public PatientDTO() { }
@@ -39,8 +40,24 @@ namespace Library.MedicalManagement.DTO
             Address = p.Address ;
             Race = p.Race ;
             Gender = p.Gender ;
-            Prescription = p.Prescriptions ;
+            Prescriptions = p.Prescriptions ;
             Diagnoses = p.Diagnoses ;
+        }
+
+        public PatientDTO(int id)
+        {
+            var patCopy = PatientServiceProxy.Current.patients.FirstOrDefault(p => (p?.Id ?? 0) == id);
+            if (patCopy != null)
+            {
+                Id = patCopy.Id ;
+                Name = patCopy.Name ;
+                Birthdate = patCopy.Birthdate ;
+                Address = patCopy.Address ;
+                Race = patCopy.Race ;
+                Gender = patCopy.Gender ;
+                Prescriptions = patCopy.Prescriptions ;
+                Diagnoses = patCopy.Diagnoses ;
+            }
         }
     }
 }
