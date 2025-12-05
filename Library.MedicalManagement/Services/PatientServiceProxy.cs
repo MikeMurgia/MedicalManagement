@@ -14,27 +14,21 @@ namespace Library.MedicalManagement.Services;
 public class PatientServiceProxy
 {
     private List<PatientDTO?> patientList;
+
     private PatientServiceProxy()
     {
         patientList = new List<PatientDTO?>();
-        var patResponse = new WebRequestHandler().Get("/Patients").Result;
-        if (patResponse != null )
-        {
-            var patients = JsonConvert.DeserializeObject<List<Patient?>>(patResponse) ?? new List<Patient?>();
-            patientList = patients
-                .Where(p => p != null)
-                .Select(p => new PatientDTO(p!))
-                .Cast<PatientDTO?>()
-                .ToList();
-        }
+        Refresh();
     }
+
     private static PatientServiceProxy? instance;
     private static object instanceLock = new object();
+
     public static PatientServiceProxy Current
     {
         get
         {
-            lock(instanceLock)
+            lock (instanceLock)
             {
                 if (instance == null)
                 {
@@ -47,16 +41,22 @@ public class PatientServiceProxy
 
     public void Refresh()
     {
-        var patResponse = new WebRequestHandler().Get("/Patients").Result;
-        if (patResponse != null)
+        try
         {
-            // Deserialize as Patient list, then convert to PatientDTO list
-            var patients = JsonConvert.DeserializeObject<List<Patient?>>(patResponse) ?? new List<Patient?>();
-            patientList = patients
-                .Where(p => p != null)
-                .Select(p => new PatientDTO(p!))
-                .Cast<PatientDTO?>()
-                .ToList();
+            var patResponse = new WebRequestHandler().Get("/Patients").Result;
+            if (patResponse != null)
+            {
+                var patients = JsonConvert.DeserializeObject<List<Patient?>>(patResponse) ?? new List<Patient?>();
+                patientList = patients
+                    .Where(p => p != null)
+                    .Select(p => new PatientDTO(p!))
+                    .Cast<PatientDTO?>()
+                    .ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error refreshing patients: {ex.Message}");
         }
     }
 
@@ -75,9 +75,9 @@ public class PatientServiceProxy
             return null;
         }
 
-        //var patient = new Patient(patientDTO);
+        var patient = new Patient(patientDTO);
 
-        var patPayload = await new WebRequestHandler().Post("/Patients", patientDTO);
+        var patPayload = await new WebRequestHandler().Post("/Patients", patient);
         var patFromServer = JsonConvert.DeserializeObject<Patient>(patPayload);
         var patDTOFromServer = patFromServer != null ? new PatientDTO(patFromServer) : null;
 
@@ -113,22 +113,52 @@ public class PatientServiceProxy
 
     public PatientDTO? Delete(int id)
     {
-        var response = new WebRequestHandler().Delete($"/Patients/{id}").Result;
-        var patToDelete = patientList
-            .Where(pat => pat != null)
-            .FirstOrDefault(pat => (pat?.Id ?? -1) == id);
-        patientList.Remove(patToDelete);
-        return patToDelete;
+        try
+        {
+            var response = new WebRequestHandler().Delete($"/Patients/{id}").Result;
+            var patToDelete = patientList
+                .Where(pat => pat != null)
+                .FirstOrDefault(pat => (pat?.Id ?? -1) == id);
+            patientList.Remove(patToDelete);
+            return patToDelete;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error deleting patient: {ex.Message}");
+            // Still remove from local list even if API fails
+            var patToDelete = patientList
+                .Where(pat => pat != null)
+                .FirstOrDefault(pat => (pat?.Id ?? -1) == id);
+            patientList.Remove(patToDelete);
+            return patToDelete;
+        }
     }
 
     public async Task<List<PatientDTO>> Search(QueryRequest query)
     {
-        var patPayload = await new WebRequestHandler().Post("/Patient/Search", query);
-        var patFromServer = JsonConvert.DeserializeObject<List<PatientDTO?>>(patPayload);
+        try
+        {
+            var patPayload = await new WebRequestHandler().Post("/Patients/Search", query);
+            var patFromServer = JsonConvert.DeserializeObject<List<PatientDTO?>>(patPayload);
 
-        patientList = patFromServer;
-        return patientList;
+            if (patFromServer != null)
+            {
+                return patFromServer.Where(p => p != null).Cast<PatientDTO>().ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error searching patients: {ex.Message}");
+        }
 
+        // Fallback to local search if API fails
+        var searchTerm = query.Content?.ToUpper() ?? string.Empty;
+        return patientList
+            .Where(p => p != null &&
+                ((p.Name?.ToUpper().Contains(searchTerm) ?? false) ||
+                 (p.Address?.ToUpper().Contains(searchTerm) ?? false)))
+            .Cast<PatientDTO>()
+            .ToList();
     }
 }
 

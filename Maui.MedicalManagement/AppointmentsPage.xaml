@@ -6,103 +6,132 @@
              BackgroundColor="#FFFFFF"
              NavigatedTo="ContentPage_NavigatedTo">
 
-	<Grid RowDefinitions="Auto,*,Auto" Padding="10">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="10">
 
-		<!-- Header with Add Button -->
-		<HorizontalStackLayout Grid.Row="0"
-                               HorizontalOptions="End"
-                               Margin="0,10">
-			<Button Text="Schedule New Appointment"
+        <!-- Search Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10" Margin="0,10">
+            <Entry x:Name="SearchEntry" 
+                   Grid.Column="0"
+                   Placeholder="Search by patient or physician name..." 
+                   PlaceholderColor="#9E9E9E"
+                   TextColor="#212121"
+                   BackgroundColor="#FAFAFA"/>
+            <Button Grid.Column="1"
+                    Text="Search" 
+                    Clicked="SearchClicked"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"/>
+            <Button Grid.Column="2"
+                    Text="Schedule New" 
                     Clicked="AddClicked"
                     BackgroundColor="#4CAF50"
                     TextColor="White"/>
-		</HorizontalStackLayout>
+        </Grid>
 
-		<!-- Appointments List -->
-		<CollectionView Grid.Row="1"
+        <!-- Appointments List -->
+        <CollectionView Grid.Row="1" 
                         ItemsSource="{Binding Appointments}"
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedAppointment}"
                         Margin="0,10">
-			<CollectionView.ItemTemplate>
-				<DataTemplate>
-					<Frame Margin="5"
-                           Padding="15"
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="5" 
+                           Padding="15" 
                            BackgroundColor="#FFFFFF"
                            BorderColor="#BDBDBD"
                            CornerRadius="10"
                            HasShadow="True">
-						<Grid RowDefinitions="Auto,Auto,Auto"
+                        <Grid RowDefinitions="Auto,Auto,Auto" 
                               ColumnDefinitions="*,Auto">
 
-							<!-- Appointment Time -->
-							<HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
-								<Label Text="📅" FontSize="20"/>
-								<Label Text="{Binding Model.StartTime, StringFormat='{0:MMM dd, yyyy}'}"
+                            <!-- Appointment Time -->
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+                                <Label Text="📅" FontSize="20"/>
+                                <Label Text="{Binding Model.StartTime, StringFormat='{0:MMM dd, yyyy}'}" 
                                        FontAttributes="Bold"
                                        FontSize="16"
                                        TextColor="#212121"/>
-								<Label Text="{Binding Model.StartTime, StringFormat='{0:HH:mm}'}"
+                                <Label Text="{Binding Model.StartTime, StringFormat='{0:HH:mm}'}" 
                                        FontAttributes="Bold"
                                        FontSize="16"
                                        TextColor="#1976D2"/>
-							</HorizontalStackLayout>
+                            </HorizontalStackLayout>
 
-							<!-- Patient Info -->
-							<HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="10">
-								<Label Text="Patient:"
-                                       TextColor="#757575"
+                            <!-- Patient Info -->
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="10">
+                                <Label Text="Patient:" 
+                                       TextColor="#757575" 
                                        FontSize="14"/>
-								<Label Text="{Binding Model.PatientName}"
+                                <Label Text="{Binding Model.PatientName}" 
                                        FontSize="14"
                                        FontAttributes="Bold"
                                        TextColor="#424242"/>
-							</HorizontalStackLayout>
+                            </HorizontalStackLayout>
 
-							<!-- Physician Info -->
-							<HorizontalStackLayout Grid.Row="2" Grid.Column="0" Spacing="10">
-								<Label Text="Physician:"
-                                       TextColor="#757575"
+                            <!-- Physician Info -->
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Spacing="10">
+                                <Label Text="Physician:" 
+                                       TextColor="#757575" 
                                        FontSize="14"/>
-								<Label Text="{Binding Model.PhysicianName}"
+                                <Label Text="{Binding Model.PhysicianName}" 
                                        FontSize="14"
                                        FontAttributes="Bold"
                                        TextColor="#424242"/>
-							</HorizontalStackLayout>
+                            </HorizontalStackLayout>
 
-							<!-- Action Buttons -->
-							<VerticalStackLayout Grid.Row="0" Grid.Column="1"
+                            <!-- Action Buttons -->
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="1" 
                                                 Grid.RowSpan="3"
                                                 Spacing="5"
                                                 VerticalOptions="Center">
-								<Button Text="Edit"
-                                        Command="{Binding EditCommand}"
+                                <Button Text="Edit" 
+                                        Clicked="EditItemClicked"
                                         CommandParameter="{Binding .}"
                                         BackgroundColor="#2196F3"
                                         TextColor="White"
                                         Padding="10,5"/>
-								<Button Text="Cancel"
-                                        Command="{Binding DeleteCommand}"
+                                <Button Text="Cancel" 
+                                        Clicked="DeleteItemClicked"
+                                        CommandParameter="{Binding .}"
                                         BackgroundColor="#F44336"
                                         TextColor="White"
                                         Padding="10,5"/>
-							</VerticalStackLayout>
-						</Grid>
-					</Frame>
-				</DataTemplate>
-			</CollectionView.ItemTemplate>
-		</CollectionView>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
 
-		<!-- Refresh Button -->
-		<Button Grid.Row="2"
-                Text="Refresh"
-                Clicked="RefreshClicked"
-                BackgroundColor="#FF9800"
-                TextColor="White"
-                HorizontalOptions="Center"
-                WidthRequest="150"
-                Margin="0,10"/>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="20">
+                    <Label Text="No appointments found" 
+                           FontSize="18" 
+                           TextColor="#757575"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Schedule a new appointment or adjust your search"
+                           FontSize="14"
+                           TextColor="#9E9E9E"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
 
-	</Grid>
+        <!-- Actions Bar -->
+        <HorizontalStackLayout Grid.Row="2" 
+                               HorizontalOptions="Center" 
+                               Spacing="10"
+                               Margin="0,10">
+            <Button Text="Refresh" 
+                    Clicked="RefreshClicked"
+                    BackgroundColor="#FF9800"
+                    TextColor="White"/>
+            <Button Text="Clear Search" 
+                    Clicked="ClearSearchClicked"
+                    BackgroundColor="#757575"
+                    TextColor="White"/>
+        </HorizontalStackLayout>
+
+    </Grid>
 
 </ContentPage>
