@@ -15,7 +15,7 @@
                    TextColor="#212121"/>
 
             <!-- Validation Message -->
-            <Border BackgroundColor="{Binding IsValid, x:DataType=Line, Converter={StaticResource BoolToColorConverter}}" 
+            <Border BackgroundColor="{Binding IsValid, Converter={StaticResource BoolToColorConverter}}" 
                    Stroke="Transparent"
                    Padding="10"
                    IsVisible="{Binding ValidationMessage, Converter={StaticResource StringToBoolConverter}}">

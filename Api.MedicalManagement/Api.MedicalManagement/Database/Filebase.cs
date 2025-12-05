@@ -7,7 +7,7 @@ namespace Api.MedicalManagement.Database
     {
         private string _root;
         private string _patRoot;
-        private static Filebase _instance;
+        private static Filebase? _instance;
 
 
         public static Filebase Current
@@ -48,6 +48,8 @@ namespace Api.MedicalManagement.Database
                 pat.Id = LastPatKey + 1;
             }
 
+            pat.Diagnoses ??= string.Empty;
+            pat.Prescriptions ??= string.Empty;
             
             string path = $"{_patRoot}\\{pat.Id}.json";
 
@@ -87,10 +89,30 @@ namespace Api.MedicalManagement.Database
         }
 
 
-        public bool Delete(string type, string id)
+        public Patient? Delete(int id)
         {
-            //TODO: refer to AddOrUpdate for an idea of how you can implement this.
-            return true;
+            string path = $"{_patRoot}\\{id}.json";
+
+            if (File.Exists(path))
+            {
+                try
+                {
+                    // Read the patient data before deleting
+                    var patientJson = File.ReadAllText(path);
+                    var patient = JsonConvert.DeserializeObject<Patient>(patientJson);
+
+                    
+                    File.Delete(path);
+
+                    return patient;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error deleting patient file: {ex.Message}");
+                }
+            }
+
+            return null;
         }
     }
 

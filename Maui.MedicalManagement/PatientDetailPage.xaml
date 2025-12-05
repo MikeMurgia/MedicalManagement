@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.MedicalManagement.PatientDetailPage"
              Title="Patient Details"
-             BackgroundColor="#FAFAFA">
+             BackgroundColor="#FAFAFA"
+             NavigatedTo="ContentPage_NavigatedTo">
 
     <ScrollView Padding="20">
         <VerticalStackLayout Spacing="15">
@@ -15,33 +16,36 @@
                    TextColor="#212121"/>
 
             <Border BackgroundColor="#FFFFFF" 
-                   Stroke="#BDBDBD"
-                   Padding="15"
-                   StrokeShape="RoundRectangle 10"
-                   Shadow="True">
+                    Stroke="#BDBDBD"
+                    StrokeThickness="1"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 10">
+                <Border.Shadow>
+                    <Shadow Brush="#000000" Offset="2,2" Radius="4" Opacity="0.1"/>
+                </Border.Shadow>
                 <VerticalStackLayout Spacing="10">
 
                     <Label Text="Name:" FontAttributes="Bold" TextColor="#424242"/>
-                    <Entry Text="{Binding Patient.Name}" 
+                    <Entry x:Name="NameEntry"
                            Placeholder="Enter patient name"
                            PlaceholderColor="#9E9E9E"
                            TextColor="#212121"
                            BackgroundColor="#FAFAFA"/>
 
                     <Label Text="Address:" FontAttributes="Bold" TextColor="#424242"/>
-                    <Entry Text="{Binding Patient.Address}" 
+                    <Entry x:Name="AddressEntry"
                            Placeholder="Enter address"
                            PlaceholderColor="#9E9E9E"
                            TextColor="#212121"
                            BackgroundColor="#FAFAFA"/>
 
                     <Label Text="Birth Date:" FontAttributes="Bold" TextColor="#424242"/>
-                    <DatePicker Date="{Binding Patient.Birthdate}" 
+                    <DatePicker x:Name="BirthdatePicker"
                                 TextColor="#212121"
                                 BackgroundColor="#FAFAFA"/>
 
                     <Label Text="Gender:" FontAttributes="Bold" TextColor="#424242"/>
-                    <Picker SelectedItem="{Binding Patient.Gender}"
+                    <Picker x:Name="GenderPicker"
                             TextColor="#212121"
                             BackgroundColor="#FAFAFA">
                         <Picker.ItemsSource>
@@ -54,27 +58,29 @@
                     </Picker>
 
                     <Label Text="Race:" FontAttributes="Bold" TextColor="#424242"/>
-                    <Entry Text="{Binding Patient.Race}" 
+                    <Entry x:Name="RaceEntry"
                            Placeholder="Enter race"
                            PlaceholderColor="#9E9E9E"
                            TextColor="#212121"
                            BackgroundColor="#FAFAFA"/>
 
                     <Label Text="Diagnoses:" FontAttributes="Bold" TextColor="#424242"/>
-                    <Editor Text="{Binding Diagnoses}" 
+                    <Editor x:Name="DiagnosesEditor"
                             Placeholder="Enter diagnoses"
                             PlaceholderColor="#9E9E9E"
                             TextColor="#212121"
                             BackgroundColor="#FAFAFA"
-                            HeightRequest="100"/>
+                            HeightRequest="100"
+                            AutoSize="TextChanges"/>
 
                     <Label Text="Prescriptions:" FontAttributes="Bold" TextColor="#424242"/>
-                    <Editor Text="{Binding Prescriptions}" 
+                    <Editor x:Name="PrescriptionsEditor"
                             Placeholder="Enter prescriptions"
                             PlaceholderColor="#9E9E9E"
                             TextColor="#212121"
                             BackgroundColor="#FAFAFA"
-                            HeightRequest="100"/>
+                            HeightRequest="100"
+                            AutoSize="TextChanges"/>
 
                 </VerticalStackLayout>
             </Border>

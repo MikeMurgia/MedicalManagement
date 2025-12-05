@@ -11,6 +11,7 @@ namespace Maui.MedicalManagement
     {
         private int _patientId;
         private PatientDTO _patient;
+        private bool _isLoaded = false;
         //private string _diagnoses;
         //private string _prescriptions;
 
@@ -20,7 +21,10 @@ namespace Maui.MedicalManagement
             set
             {
                 _patientId = value;
-                LoadPatient();
+                if (_isLoaded)
+                {
+                    LoadPatient();
+                }
             }
         }
 
@@ -60,41 +64,49 @@ namespace Maui.MedicalManagement
             Patient = new PatientDTO();
             BindingContext = this;
         }
-
+        private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+        {
+            _isLoaded = true;
+            LoadPatient();
+        }
         private void LoadPatient()
         {
-            if (_patientId > 0)
+            try
             {
-                var patient = PatientServiceProxy.Current.patients.FirstOrDefault(p => p?.Id == _patientId);
-                if (patient != null)
+                if (_patientId > 0)
                 {
-                    Patient = patient;
+                    // Editing existing patient
+                    var patient = PatientServiceProxy.Current.patients.FirstOrDefault(p => p?.Id == _patientId);
+                    if (patient != null)
+                    {
+                        NameEntry.Text = patient.Name ?? string.Empty;
+                        AddressEntry.Text = patient.Address ?? string.Empty;
+                        BirthdatePicker.Date = patient.Birthdate;
+                        GenderPicker.SelectedItem = patient.Gender ?? "Male";
+                        RaceEntry.Text = patient.Race ?? string.Empty;
+                        DiagnosesEditor.Text = patient.Diagnoses ?? string.Empty;
+                        PrescriptionsEditor.Text = patient.Prescriptions ?? string.Empty;
 
-                    var fullPatient = new Patient(patient);
-                    //Diagnoses = fullPatient.Diagnoses ?? string.Empty;
-                    //Prescriptions = fullPatient.Prescriptions ?? string.Empty;
-
-                    BindingContext = this;
-                    OnPropertyChanged(nameof(Patient));
-                    //OnPropertyChanged(nameof(Diagnoses));
-                    //OnPropertyChanged(nameof(Prescriptions));
+                        System.Diagnostics.Debug.WriteLine($"Loaded patient: {patient.Name}");
+                        System.Diagnostics.Debug.WriteLine($"  Diagnoses: {patient.Diagnoses}");
+                        System.Diagnostics.Debug.WriteLine($"  Prescriptions: {patient.Prescriptions}");
+                    }
+                }
+                else
+                {
+                    // New patient - set defaults
+                    NameEntry.Text = string.Empty;
+                    AddressEntry.Text = string.Empty;
+                    BirthdatePicker.Date = DateTime.Today.AddYears(-18);
+                    GenderPicker.SelectedIndex = 0;
+                    RaceEntry.Text = string.Empty;
+                    DiagnosesEditor.Text = string.Empty;
+                    PrescriptionsEditor.Text = string.Empty;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Patient = new PatientDTO
-                {
-                    Id = 0,
-                    Name = string.Empty,
-                    Address = string.Empty,
-                    Birthdate = DateTime.Today.AddYears(-18),
-                    Gender = "Male",
-                    Race = "Other",
-                    Diagnoses = string.Empty,
-                    Prescriptions = string.Empty
-                };
-
-                BindingContext = this;
+                System.Diagnostics.Debug.WriteLine($"Error loading patient: {ex.Message}");
             }
         }
 
@@ -102,19 +114,38 @@ namespace Maui.MedicalManagement
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Patient.Name))
+                // Validate
+                if (string.IsNullOrWhiteSpace(NameEntry.Text))
                 {
                     await DisplayAlert("Validation", "Name is required", "OK");
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(Patient.Address))
+                if (string.IsNullOrWhiteSpace(AddressEntry.Text))
                 {
                     await DisplayAlert("Validation", "Address is required", "OK");
                     return;
                 }
 
-                var savedPatient = await PatientServiceProxy.Current.AddOrUpdate(Patient);
+                // Build the DTO from form values
+                var patientDto = new PatientDTO
+                {
+                    Id = _patientId,
+                    Name = NameEntry.Text?.Trim(),
+                    Address = AddressEntry.Text?.Trim(),
+                    Birthdate = BirthdatePicker.Date,
+                    Gender = GenderPicker.SelectedItem?.ToString() ?? "Male",
+                    Race = RaceEntry.Text?.Trim() ?? string.Empty,
+                    Diagnoses = DiagnosesEditor.Text?.Trim() ?? string.Empty,
+                    Prescriptions = PrescriptionsEditor.Text?.Trim() ?? string.Empty
+                };
+
+                // Debug output
+                System.Diagnostics.Debug.WriteLine($"Saving patient: {patientDto.Name}");
+                System.Diagnostics.Debug.WriteLine($"  Diagnoses: {patientDto.Diagnoses}");
+                System.Diagnostics.Debug.WriteLine($"  Prescriptions: {patientDto.Prescriptions}");
+
+                var savedPatient = await PatientServiceProxy.Current.AddOrUpdate(patientDto);
 
                 if (savedPatient != null)
                 {
@@ -123,11 +154,13 @@ namespace Maui.MedicalManagement
                 }
                 else
                 {
-                    await DisplayAlert("Error", "Failed to save patient", "OK");
+                    await DisplayAlert("Error", "Failed to save patient - no response from server", "OK");
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Error saving patient: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                 await DisplayAlert("Error", $"Failed to save patient: {ex.Message}", "OK");
             }
         }

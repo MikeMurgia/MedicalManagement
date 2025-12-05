@@ -17,18 +17,21 @@ namespace Api.MedicalManagement.Enterprise
         public PatientDTO? GetById(int id)
         {
             var patient = Filebase.Current.Pats.FirstOrDefault(p => p.Id == id);
+            if (patient == null)
+            {
+                return null;
+            }
             return new PatientDTO(patient);
         }
 
         public PatientDTO? Delete(int id)
         {
-            //var toRemove = GetById(id);
-            var toRemove = Filebase.Current.Pats.FirstOrDefault(p => p.Id == id);
-            if (toRemove != null)
+            var patToDelete = Filebase.Current.Delete(id);
+            if (patToDelete != null)
             {
-                Filebase.Current.Pats.Remove(toRemove);
+                return new PatientDTO(patToDelete);
             }
-            return new PatientDTO(toRemove);
+            return null;
         }
 
         public PatientDTO? AddOrUpdate(PatientDTO? patientDTO)

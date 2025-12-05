@@ -37,12 +37,15 @@
                         Margin="0,10">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Margin="5" 
-                           Padding="10" 
-                           BackgroundColor="#FFFFFF"
-                           BorderColor="#BDBDBD"
-                           CornerRadius="8"
-                           HasShadow="True">
+                    <Border Margin="5" 
+                            Padding="10" 
+                            BackgroundColor="#FFFFFF"
+                            Stroke="#BDBDBD"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 8">
+                        <Border.Shadow>
+                            <Shadow Brush="#000000" Offset="2,2" Radius="4" Opacity="0.1"/>
+                        </Border.Shadow>
                         <Grid ColumnDefinitions="*,Auto">
                             <VerticalStackLayout Grid.Column="0">
                                 <Label Text="{Binding Model.Name}" 
@@ -79,7 +82,7 @@
                                         FontSize="12"/>
                             </HorizontalStackLayout>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
