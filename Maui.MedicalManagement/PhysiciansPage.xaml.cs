@@ -8,7 +8,7 @@ namespace Maui.MedicalManagement
     public partial class PhysiciansPage : ContentPage
     {
         public ObservableCollection<PhysicianViewModel> Physicians { get; set; }
-        public PhysicianViewModel SelectedPhysician { get; set; }
+        public PhysicianViewModel? SelectedPhysician { get; set; }
 
         public PhysiciansPage()
         {
@@ -25,24 +25,14 @@ namespace Maui.MedicalManagement
 
         private void LoadPhysicians()
         {
-            try
+            Physicians.Clear();
+
+            foreach (var physician in PhysicianServiceProxy.Current.Physicians)
             {
-                Physicians.Clear();
-
-                //PhysicianServiceProxy.Current.Refresh();
-
-                var physicians = PhysicianServiceProxy.Current.Physicians;
-                foreach (var physician in physicians)
+                if (physician != null)
                 {
-                    if (physician != null)
-                    {
-                        Physicians.Add(new PhysicianViewModel(physician));
-                    }
+                    Physicians.Add(new PhysicianViewModel(physician));
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error loading physicians: {ex.Message}");
             }
         }
 
@@ -51,94 +41,67 @@ namespace Maui.MedicalManagement
             await Shell.Current.GoToAsync("PhysicianDetail?physicianId=0");
         }
 
-        private void RefreshClicked(object sender, EventArgs e)
+        private void SearchClicked(object sender, EventArgs e)
         {
+            var searchTerm = SearchEntry.Text?.Trim().ToUpper() ?? string.Empty;
+
+            Physicians.Clear();
+
+            var filteredPhysicians = PhysicianServiceProxy.Current.Physicians
+                .Where(p => p != null &&
+                    ((p.Name?.ToUpper().Contains(searchTerm) ?? false) ||
+                     (p.Specializations?.ToUpper().Contains(searchTerm) ?? false) ||
+                     (p.License?.ToUpper().Contains(searchTerm) ?? false)));
+
+            foreach (var physician in filteredPhysicians)
+            {
+                if (physician != null)
+                {
+                    Physicians.Add(new PhysicianViewModel(physician));
+                }
+            }
+        }
+
+        private void ClearSearchClicked(object sender, EventArgs e)
+        {
+            SearchEntry.Text = string.Empty;
             LoadPhysicians();
         }
 
-        private async void EditClicked(object sender, EventArgs e)
+        private void RefreshClicked(object sender, EventArgs e)
         {
-            if (SelectedPhysician == null)
-            {
-                await DisplayAlert("Info", "Please select a physician to edit", "OK");
-                return;
-            }
-
-            var selectedId = SelectedPhysician?.Model?.Id ?? 0;
-            await Shell.Current.GoToAsync($"PhysicianDetail?physicianId={selectedId}");
+            SearchEntry.Text = string.Empty;
+            LoadPhysicians();
         }
 
-        private async void DeleteClicked(object sender, EventArgs e)
+        private async void EditItemClicked(object sender, EventArgs e)
         {
-            if (SelectedPhysician == null)
+            if (sender is Button button && button.CommandParameter is PhysicianViewModel physician)
             {
-                await DisplayAlert("Info", "Please select a physician to delete", "OK");
-                return;
-            }
-
-            var confirm = await DisplayAlert("Confirm Delete",
-                $"Are you sure you want to delete Dr. {SelectedPhysician.Model?.Name}?",
-                "Yes", "No");
-
-            if (confirm)
-            {
-                try
-                {
-                    PhysicianServiceProxy.Current.Delete(SelectedPhysician.Model?.Id ?? 0);
-                    LoadPhysicians();
-                    await DisplayAlert("Success", "Physician deleted successfully", "OK");
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"Failed to delete physician: {ex.Message}", "OK");
-                }
+                var physicianId = physician.Model?.Id ?? 0;
+                await Shell.Current.GoToAsync($"PhysicianDetail?physicianId={physicianId}");
             }
         }
 
-        private async void SearchClicked(object sender, EventArgs e)
+        private async void DeleteItemClicked(object sender, EventArgs e)
         {
-            var specialization = await DisplayPromptAsync("Search",
-                "Enter specialization to search for:",
-                placeholder: "e.g., Cardiology");
-
-            if (!string.IsNullOrWhiteSpace(specialization))
+            if (sender is Button button && button.CommandParameter is PhysicianViewModel physician)
             {
-                try
+                var confirm = await DisplayAlert("Confirm Delete",
+                    $"Are you sure you want to delete Dr. {physician.Model?.Name}?",
+                    "Yes", "No");
+
+                if (confirm)
                 {
-                    var searchResults = await PhysicianServiceProxy.Current.Search(
-                        new Library.MedicalManagement.Data.QueryRequest { Content = specialization });
-
-                    Physicians.Clear();
-                    foreach (var physician in searchResults)
+                    var physicianId = physician.Model?.Id ?? 0;
+                    if (physicianId > 0)
                     {
-                        if (physician != null)
-                        {
-                            Physicians.Add(new PhysicianViewModel(physician));
-                        }
-                    }
-
-                    if (!Physicians.Any())
-                    {
-                        await DisplayAlert("Search Results", "No physicians found with that specialization", "OK");
-                        LoadPhysicians();
+                        PhysicianServiceProxy.Current.Delete(physicianId);
+                        Physicians.Remove(physician);
+                        await DisplayAlert("Success", "Physician deleted successfully", "OK");
                     }
                 }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"Search failed: {ex.Message}", "OK");
-                }
             }
-        }
-
-        private async void ViewScheduleClicked(object sender, EventArgs e)
-        {
-            if (SelectedPhysician == null)
-            {
-                await DisplayAlert("Info", "Please select a physician to view schedule", "OK");
-                return;
-            }
-
-            await Shell.Current.GoToAsync($"///AppointmentsPage?physicianId={SelectedPhysician.Model?.Id}");
         }
     }
 }

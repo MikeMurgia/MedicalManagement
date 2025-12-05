@@ -6,18 +6,42 @@ namespace Maui.MedicalManagement
 {
     public partial class PatientsPage : ContentPage
     {
-        private MainViewModel viewModel;
+        public ObservableCollection<PatientViewModel> Patients { get; set; }
+        public PatientViewModel? SelectedPatient { get; set; }
 
         public PatientsPage()
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
-            BindingContext = viewModel;
+            Patients = new ObservableCollection<PatientViewModel>();
+            BindingContext = this;
+            LoadPatients();
         }
 
         private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
         {
-            viewModel?.Refresh();
+            LoadPatients();
+        }
+
+        private void LoadPatients()
+        {
+            try
+            {
+                Patients.Clear();
+
+                PatientServiceProxy.Current.Refresh();
+
+                foreach (var patient in PatientServiceProxy.Current.patients)
+                {
+                    if (patient != null)
+                    {
+                        Patients.Add(new PatientViewModel(patient));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading patients: {ex.Message}");
+            }
         }
 
         private async void AddClicked(object sender, EventArgs e)
@@ -25,112 +49,79 @@ namespace Maui.MedicalManagement
             await Shell.Current.GoToAsync("PatientDetail?patientId=0");
         }
 
-        //use wordpress as model->move a lot of this into viewmodel
         private void SearchClicked(object sender, EventArgs e)
         {
-            var searchEntry = this.FindByName<Entry>("SearchEntry");
-            if (searchEntry != null)
+            var searchTerm = SearchEntry.Text?.Trim().ToUpper() ?? string.Empty;
+
+            if (string.IsNullOrEmpty(searchTerm))
             {
-                viewModel.Query = searchEntry.Text;
-                viewModel?.Search();
+                LoadPatients();
+                return;
             }
+
+            Patients.Clear();
+
+            var filteredPatients = PatientServiceProxy.Current.patients
+                .Where(p => p != null &&
+                    ((p.Name?.ToUpper().Contains(searchTerm) ?? false) ||
+                     (p.Address?.ToUpper().Contains(searchTerm) ?? false)));
+
+            foreach (var patient in filteredPatients)
+            {
+                if (patient != null)
+                {
+                    Patients.Add(new PatientViewModel(patient));
+                }
+            }
+        }
+
+        private void ClearSearchClicked(object sender, EventArgs e)
+        {
+            SearchEntry.Text = string.Empty;
+            LoadPatients();
         }
 
         private void RefreshClicked(object sender, EventArgs e)
         {
-            viewModel?.Refresh();
+            SearchEntry.Text = string.Empty;
+            LoadPatients();
         }
 
-        private async void ExportClicked(object sender, EventArgs e)
+        private async void EditItemClicked(object sender, EventArgs e)
         {
-            try
+            if (sender is Button button && button.CommandParameter is PatientViewModel patient)
             {
-                viewModel?.Export();
-                await DisplayAlert("Success", "Data exported successfully to C:\\temp\\data.json", "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Export failed: {ex.Message}", "OK");
+                var patientId = patient.Model?.Id ?? 0;
+                await Shell.Current.GoToAsync($"PatientDetail?patientId={patientId}");
             }
         }
 
-        private async void ImportClicked(object sender, EventArgs e)
+        private async void DeleteItemClicked(object sender, EventArgs e)
         {
-            try
+            if (sender is Button button && button.CommandParameter is PatientViewModel patient)
             {
-                viewModel?.Import();
-                viewModel?.Refresh();
-                await DisplayAlert("Success", "Data imported successfully", "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Import failed: {ex.Message}", "OK");
-            }
-        }
+                var confirm = await DisplayAlert("Confirm Delete",
+                    $"Are you sure you want to delete {patient.Model?.Name}?",
+                    "Yes", "No");
 
-        private async void EditClicked(object sender, EventArgs e)
-        {
-            var selectedId = viewModel?.SelectedPatient?.Model?.Id ?? 0;
-            if (selectedId > 0)
-            {
-                await Shell.Current.GoToAsync($"PatientDetail?patientId={selectedId}");
-            }
-            else
-            {
-                await DisplayAlert("Info", "Please select a patient to edit", "OK");
-            }
-        }
-
-        private async void DeleteClicked(object sender, EventArgs e)
-        {
-            if (viewModel?.SelectedPatient == null)
-            {
-                await DisplayAlert("Error", "Please select a patient to delete", "OK");
-                return;
-            }
-
-            var confirm = await DisplayAlert("Confirm Delete",
-                $"Are you sure you want to delete {viewModel.SelectedPatient.Model?.Name}?",
-                "Yes", "No");
-
-            if (confirm)
-            {
-                viewModel?.Delete();
-                viewModel?.Refresh();
-            }
-        }
-
-        private void InlineEditClicked(object sender, EventArgs e)
-        {
-            viewModel?.Refresh();
-        }
-
-        private async void InlineAddClicked(object sender, EventArgs e)
-        {
-            try
-            {
-                if (viewModel != null)
+                if (confirm)
                 {
-                    bool result = await viewModel.AddInlinePatient();
-                    if (result)
+                    try
                     {
-                        await DisplayAlert("Success", "Patient added successfully", "OK");
+                        var patientId = patient.Model?.Id ?? 0;
+                        if (patientId > 0)
+                        {
+                            PatientServiceProxy.Current.Delete(patientId);
+                            Patients.Remove(patient);
+                            await DisplayAlert("Success", "Patient deleted successfully", "OK");
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        await DisplayAlert("Error", "Failed to add patient", "OK");
+                        await DisplayAlert("Error", $"Failed to delete patient: {ex.Message}", "OK");
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed to add patient: {ex.Message}", "OK");
-            }
-        }
-
-        private void ExpandCardClicked(object sender, EventArgs e)
-        {
-            viewModel?.ExpandCard();
         }
     }
 }

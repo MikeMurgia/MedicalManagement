@@ -3,13 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.MedicalManagement.MainPage"
              Title="Medical Management System"
-             NavigatedTo="ContentPage_NavigatedTo">
+             BackgroundColor="#FFFFFF">
 
     <ScrollView>
         <Grid Padding="20" RowSpacing="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -17,92 +15,30 @@
 
             <!-- Header -->
             <VerticalStackLayout Grid.Row="0" Spacing="10">
-                <Label Text="Medical Management System" 
-                       FontSize="32" 
+                <Label Text="🏥 Medical Management System" 
+                       FontSize="28" 
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
                        TextColor="#2196F3"/>
                 <Label Text="Welcome to your healthcare management dashboard" 
                        FontSize="16"
                        HorizontalOptions="Center"
-                       TextColor="Gray"/>
+                       TextColor="#757575"/>
                 <BoxView HeightRequest="2" 
-                         BackgroundColor="#E0E0E0" 
+                         Color="#E0E0E0" 
                          Margin="0,10"/>
             </VerticalStackLayout>
 
-            <!-- Statistics Cards -->
-            <Grid Grid.Row="1" ColumnSpacing="15" RowSpacing="15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Patients Card -->
-                <Frame Grid.Column="0" 
-                       BackgroundColor="#E3F2FD"
-                       BorderColor="#2196F3"
-                       CornerRadius="10"
-                       Padding="15">
-                    <VerticalStackLayout Spacing="5">
-                        <Label Text="👥" FontSize="30" HorizontalOptions="Center"/>
-                        <Label Text="{Binding TotalPatients}" 
-                               FontSize="28" 
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               TextColor="#1976D2"/>
-                        <Label Text="Total Patients" 
-                               HorizontalOptions="Center"
-                               TextColor="#1976D2"/>
-                    </VerticalStackLayout>
-                </Frame>
-
-                <!-- Physicians Card -->
-                <Frame Grid.Column="1" 
-                       BackgroundColor="#E8F5E9"
-                       BorderColor="#4CAF50"
-                       CornerRadius="10"
-                       Padding="15">
-                    <VerticalStackLayout Spacing="5">
-                        <Label Text="👨‍⚕️" FontSize="30" HorizontalOptions="Center"/>
-                        <Label Text="{Binding TotalPhysicians}" 
-                               FontSize="28" 
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               TextColor="#388E3C"/>
-                        <Label Text="Physicians" 
-                               HorizontalOptions="Center"
-                               TextColor="#388E3C"/>
-                    </VerticalStackLayout>
-                </Frame>
-
-                <!-- Appointments Card -->
-                <Frame Grid.Column="2" 
-                       BackgroundColor="#FFF3E0"
-                       BorderColor="#FF9800"
-                       CornerRadius="10"
-                       Padding="15">
-                    <VerticalStackLayout Spacing="5">
-                        <Label Text="📅" FontSize="30" HorizontalOptions="Center"/>
-                        <Label Text="{Binding TodaysAppointments}" 
-                               FontSize="28" 
-                               FontAttributes="Bold"
-                               HorizontalOptions="Center"
-                               TextColor="#F57C00"/>
-                        <Label Text="Today's Appointments" 
-                               HorizontalOptions="Center"
-                               TextColor="#F57C00"/>
-                    </VerticalStackLayout>
-                </Frame>
-            </Grid>
-
             <!-- Quick Actions -->
-            <Frame Grid.Row="2" 
-                   BackgroundColor="#F5F5F5"
-                   BorderColor="#E0E0E0"
-                   CornerRadius="10"
-                   Padding="20">
+            <Border Grid.Row="1" 
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#BDBDBD"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="#000000" Offset="2,2" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
                 <VerticalStackLayout Spacing="15">
                     <Label Text="Quick Actions" 
                            FontSize="20" 
@@ -175,263 +111,102 @@
                                 HeightRequest="50"/>
                     </Grid>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
-            <!-- Recent Activity Section -->
-            <Frame Grid.Row="3" 
-                   BackgroundColor="#F5F5F5"
-                   BorderColor="#E0E0E0"
-                   CornerRadius="10"
-                   Padding="20">
-                <Grid RowDefinitions="Auto,Auto" RowSpacing="20">
-                    <!-- Navigation Menu -->
-                    <VerticalStackLayout Grid.Row="0" Spacing="15">
-                        <Label Text="Navigation Menu" 
-                               FontSize="20" 
-                               FontAttributes="Bold"
-                               TextColor="#424242"/>
+            <!-- Navigation Cards -->
+            <Border Grid.Row="2" 
+                    BackgroundColor="#FFFFFF"
+                    Stroke="#BDBDBD"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="#000000" Offset="2,2" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Navigation" 
+                           FontSize="20" 
+                           FontAttributes="Bold"
+                           TextColor="#424242"/>
 
-                        <Grid ColumnSpacing="10" RowSpacing="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                    <Grid ColumnSpacing="10" RowSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                            <!-- Patient Management Card -->
-                            <Frame Grid.Row="0" Grid.Column="0"
-                                   BackgroundColor="White"
-                                   BorderColor="#2196F3"
-                                   CornerRadius="10"
-                                   Padding="15">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="PatientCardTapped"/>
-                                </Frame.GestureRecognizers>
-                                <VerticalStackLayout Spacing="10">
-                                    <Label Text="👥" FontSize="30" HorizontalOptions="Center"/>
-                                    <Label Text="Patients" 
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           TextColor="#2196F3"/>
-                                    <Label Text="View, Add, Edit"
-                                           FontSize="10"
-                                           HorizontalOptions="Center"
-                                           TextColor="Gray"/>
-                                </VerticalStackLayout>
-                            </Frame>
+                        <!-- Patient Management Card -->
+                        <Border Grid.Column="0"
+                                BackgroundColor="#E3F2FD"
+                                Stroke="#2196F3"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="15">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PatientCardTapped"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="👥" FontSize="30" HorizontalOptions="Center"/>
+                                <Label Text="Patients" 
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       TextColor="#1976D2"/>
+                                <Label Text="View, Add, Edit"
+                                       FontSize="10"
+                                       HorizontalOptions="Center"
+                                       TextColor="#757575"/>
+                            </VerticalStackLayout>
+                        </Border>
 
-                            <!-- Physician Management Card -->
-                            <Frame Grid.Row="0" Grid.Column="1"
-                                   BackgroundColor="White"
-                                   BorderColor="#4CAF50"
-                                   CornerRadius="10"
-                                   Padding="15">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="PhysicianCardTapped"/>
-                                </Frame.GestureRecognizers>
-                                <VerticalStackLayout Spacing="10">
-                                    <Label Text="👨‍⚕️" FontSize="30" HorizontalOptions="Center"/>
-                                    <Label Text="Physicians" 
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           TextColor="#4CAF50"/>
-                                    <Label Text="View, Add, Edit"
-                                           FontSize="10"
-                                           HorizontalOptions="Center"
-                                           TextColor="Gray"/>
-                                </VerticalStackLayout>
-                            </Frame>
+                        <!-- Physician Management Card -->
+                        <Border Grid.Column="1"
+                                BackgroundColor="#E8F5E9"
+                                Stroke="#4CAF50"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="15">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PhysicianCardTapped"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="👨‍⚕️" FontSize="30" HorizontalOptions="Center"/>
+                                <Label Text="Physicians" 
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       TextColor="#388E3C"/>
+                                <Label Text="View, Add, Edit"
+                                       FontSize="10"
+                                       HorizontalOptions="Center"
+                                       TextColor="#757575"/>
+                            </VerticalStackLayout>
+                        </Border>
 
-                            <!-- Appointment Management Card -->
-                            <Frame Grid.Row="0" Grid.Column="2"
-                                   BackgroundColor="White"
-                                   BorderColor="#FF9800"
-                                   CornerRadius="10"
-                                   Padding="15">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="AppointmentCardTapped"/>
-                                </Frame.GestureRecognizers>
-                                <VerticalStackLayout Spacing="10">
-                                    <Label Text="📅" FontSize="30" HorizontalOptions="Center"/>
-                                    <Label Text="Appointments" 
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           TextColor="#FF9800"/>
-                                    <Label Text="Schedule, View"
-                                           FontSize="10"
-                                           HorizontalOptions="Center"
-                                           TextColor="Gray"/>
-                                </VerticalStackLayout>
-                            </Frame>
-
-                            <!-- Import/Export Card -->
-                            <Frame Grid.Row="1" Grid.Column="0"
-                                   BackgroundColor="White"
-                                   BorderColor="#9C27B0"
-                                   CornerRadius="10"
-                                   Padding="15">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="ImportExportCardTapped"/>
-                                </Frame.GestureRecognizers>
-                                <VerticalStackLayout Spacing="10">
-                                    <Label Text="📦" FontSize="30" HorizontalOptions="Center"/>
-                                    <Label Text="Import/Export" 
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           TextColor="#9C27B0"/>
-                                    <Label Text="Data Management"
-                                           FontSize="10"
-                                           HorizontalOptions="Center"
-                                           TextColor="Gray"/>
-                                </VerticalStackLayout>
-                            </Frame>
-
-                            <!-- Reports Card -->
-                            <Frame Grid.Row="1" Grid.Column="1"
-                                   BackgroundColor="White"
-                                   BorderColor="#00BCD4"
-                                   CornerRadius="10"
-                                   Padding="15">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="ReportsCardTapped"/>
-                                </Frame.GestureRecognizers>
-                                <VerticalStackLayout Spacing="10">
-                                    <Label Text="📊" FontSize="30" HorizontalOptions="Center"/>
-                                    <Label Text="Reports" 
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           TextColor="#00BCD4"/>
-                                    <Label Text="Analytics"
-                                           FontSize="10"
-                                           HorizontalOptions="Center"
-                                           TextColor="Gray"/>
-                                </VerticalStackLayout>
-                            </Frame>
-
-                            <!-- Settings Card -->
-                            <Frame Grid.Row="1" Grid.Column="2"
-                                   BackgroundColor="White"
-                                   BorderColor="#757575"
-                                   CornerRadius="10"
-                                   Padding="15">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="SettingsCardTapped"/>
-                                </Frame.GestureRecognizers>
-                                <VerticalStackLayout Spacing="10">
-                                    <Label Text="⚙️" FontSize="30" HorizontalOptions="Center"/>
-                                    <Label Text="Settings" 
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           TextColor="#757575"/>
-                                    <Label Text="Configuration"
-                                           FontSize="10"
-                                           HorizontalOptions="Center"
-                                           TextColor="Gray"/>
-                                </VerticalStackLayout>
-                            </Frame>
-                        </Grid>
-                    </VerticalStackLayout>
-
-                    <!-- Recent Patients -->
-                    <VerticalStackLayout Grid.Row="1" Spacing="15">
-                        <HorizontalStackLayout>
-                            <Label Text="Recent Patients" 
-                                   FontSize="20" 
-                                   FontAttributes="Bold"
-                                   TextColor="#424242"
-                                   HorizontalOptions="FillAndExpand"/>
-                            <Button Text="View All"
-                                    TextColor="#2196F3"
-                                    BackgroundColor="Transparent"
-                                    Clicked="ViewAllPatientsClicked"
-                                    FontSize="12"/>
-                        </HorizontalStackLayout>
-
-                        <!-- Recent Patients List -->
-                        <CollectionView ItemsSource="{Binding RecentPatients}"
-                                        HeightRequest="200">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Frame Margin="0,2" 
-                                           Padding="10" 
-                                           BackgroundColor="White"
-                                           BorderColor="#E0E0E0"
-                                           CornerRadius="5">
-                                        <Grid ColumnDefinitions="Auto,*,Auto">
-                                            <Label Grid.Column="0" 
-                                                   Text="👤" 
-                                                   FontSize="20"
-                                                   VerticalOptions="Center"/>
-                                            <VerticalStackLayout Grid.Column="1" 
-                                                                Margin="10,0"
-                                                                VerticalOptions="Center">
-                                                <Label Text="{Binding Model.Name}" 
-                                                       FontAttributes="Bold"/>
-                                                <Label Text="{Binding Model.Display}" 
-                                                       FontSize="12"
-                                                       TextColor="Gray"/>
-                                            </VerticalStackLayout>
-                                            <Button Grid.Column="2"
-                                                    Text="View"
-                                                    Command="{Binding EditCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    BackgroundColor="#2196F3"
-                                                    TextColor="White"
-                                                    Padding="10,5"
-                                                    VerticalOptions="Center"/>
-                                        </Grid>
-                                    </Frame>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </Grid>
-            </Frame>
-
-            <!-- System Information -->
-            <Frame Grid.Row="4" 
-                   BackgroundColor="#E8EAF6"
-                   BorderColor="#3F51B5"
-                   CornerRadius="10"
-                   Padding="15"
-                   Margin="0,0,0,20">
-                <Grid ColumnDefinitions="Auto,*">
-                    <Label Grid.Column="0" 
-                           Text="ℹ️" 
-                           FontSize="20"
-                           VerticalOptions="Center"
-                           Margin="0,0,10,0"/>
-                    <VerticalStackLayout Grid.Column="1">
-                        <Label Text="System Information" 
-                               FontAttributes="Bold"
-                               TextColor="#303F9F"/>
-                        <Label Text="Business Hours: Monday-Friday, 8:00 AM - 5:00 PM"
-                               FontSize="12"
-                               TextColor="#5C6BC0"/>
-                        <Label Text="{Binding LastRefreshTime, StringFormat='Last updated: {0:HH:mm:ss}'}"
-                               FontSize="12"
-                               TextColor="#5C6BC0"/>
-                        <HorizontalStackLayout Spacing="10" Margin="0,5,0,0">
-                            <Button Text="🔄 Refresh"
-                                    BackgroundColor="#3F51B5"
-                                    TextColor="White"
-                                    Clicked="RefreshClicked"
-                                    Padding="10,5"
-                                    FontSize="12"/>
-                            <Button Text="📊 Reports"
-                                    BackgroundColor="#7986CB"
-                                    TextColor="White"
-                                    Clicked="ViewReportsClicked"
-                                    Padding="10,5"
-                                    FontSize="12"/>
-                        </HorizontalStackLayout>
-                    </VerticalStackLayout>
-                </Grid>
-            </Frame>
+                        <!-- Appointment Management Card -->
+                        <Border Grid.Column="2"
+                                BackgroundColor="#FFF3E0"
+                                Stroke="#FF9800"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="15">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AppointmentCardTapped"/>
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📅" FontSize="30" HorizontalOptions="Center"/>
+                                <Label Text="Appointments" 
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Center"
+                                       TextColor="#F57C00"/>
+                                <Label Text="Schedule, View"
+                                       FontSize="10"
+                                       HorizontalOptions="Center"
+                                       TextColor="#757575"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
 
         </Grid>
     </ScrollView>
