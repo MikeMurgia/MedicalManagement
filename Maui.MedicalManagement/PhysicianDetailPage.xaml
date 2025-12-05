@@ -14,11 +14,11 @@
                    HorizontalOptions="Center"
                    TextColor="#212121"/>
 
-            <Frame BackgroundColor="#FFFFFF" 
-                   BorderColor="#BDBDBD"
+            <Border BackgroundColor="#FFFFFF" 
+                   Stroke="#BDBDBD"
                    Padding="15"
-                   CornerRadius="10"
-                   HasShadow="True">
+                   StrokeShape="RoundRectangle 10"
+                   Shadow="True">
                 <VerticalStackLayout Spacing="10">
 
                     <Label Text="Name:" FontAttributes="Bold" TextColor="#424242"/>
@@ -48,7 +48,7 @@
                            BackgroundColor="#FAFAFA"/>
 
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Button Text="Save" 

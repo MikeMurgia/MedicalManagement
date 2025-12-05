@@ -55,7 +55,7 @@ namespace Maui.MedicalManagement
                     Id = 0,
                     Name = string.Empty,
                     License = string.Empty,
-                    GraduationDate = DateTime.Today.AddYears(-10),
+                    GraduationDate = DateTime.Today.AddYears(-4),
                     Specializations = string.Empty
                 };
                 BindingContext = this;

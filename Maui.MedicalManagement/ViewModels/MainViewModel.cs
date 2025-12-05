@@ -78,7 +78,7 @@ namespace Maui.MedicalManagement.ViewModels
             var patientString = JsonConvert.SerializeObject(
                 Patients
                 .Where(p => p != null && p.Model != null)
-                .Select(p => p.Model));
+                .Select(p => p?.Model));
 
             using (StreamWriter sw = new StreamWriter(@"C:\Users\mikem\source\data\data.json"))
             {
@@ -105,7 +105,7 @@ namespace Maui.MedicalManagement.ViewModels
                         patient.Id = 0;
                         //PatientServiceProxy.Current.AddOrUpdate(patients);
                     }
-                    PatientServiceProxy.Current.AddOrUpdate(patients);
+                    PatientServiceProxy.Current?.AddOrUpdate(patients);
                     NotifyPropertyChanged(nameof(Patients));
                 }
                 Refresh();
@@ -146,6 +146,7 @@ namespace Maui.MedicalManagement.ViewModels
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine($"Error adding inline patient: {e.Message}");
                 return false;
             }
 

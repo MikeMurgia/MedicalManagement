@@ -87,12 +87,13 @@ namespace Maui.MedicalManagement
                     Id = 0,
                     Name = string.Empty,
                     Address = string.Empty,
-                    Birthdate = DateTime.Today.AddYears(-30),
+                    Birthdate = DateTime.Today.AddYears(-18),
                     Gender = "Male",
-                    Race = "Other"
+                    Race = "Other",
+                    Diagnoses = string.Empty,
+                    Prescription = string.Empty
                 };
-                Diagnoses = string.Empty;
-                Prescriptions = string.Empty;
+
                 BindingContext = this;
             }
         }

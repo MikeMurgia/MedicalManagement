@@ -27,6 +27,8 @@ namespace Library.MedicalManagement.DTO
         public string? Address { get; set; }
         public string? Race { get; set; }
         public string? Gender { get; set; }
+        public string? Prescription { get; set; }
+        public string? Diagnoses { get; set; }
 
         public PatientDTO() { }
         public PatientDTO(Patient p)
@@ -37,6 +39,8 @@ namespace Library.MedicalManagement.DTO
             Address = p.Address ;
             Race = p.Race ;
             Gender = p.Gender ;
+            Prescription = p.Prescriptions ;
+            Diagnoses = p.Diagnoses ;
         }
     }
 }

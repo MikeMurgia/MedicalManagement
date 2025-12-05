@@ -42,28 +42,26 @@ namespace Api.MedicalManagement.Database
         }
 
         public Patient AddOrUpdate(Patient pat)
-        {
-            //set up a new Id if one doesn't already exist
+        { 
             if (pat.Id <= 0)
             {
                 pat.Id = LastPatKey + 1;
             }
 
-            //go to the right place
+            
             string path = $"{_patRoot}\\{pat.Id}.json";
 
 
-            //if the item has been previously persisted
+            
             if (File.Exists(path))
             {
                 //blow it up
                 File.Delete(path);
             }
 
-            //write the file
+            
             File.WriteAllText(path, JsonConvert.SerializeObject(pat));
 
-            //return the item, which now has an id
             return pat;
         }
 

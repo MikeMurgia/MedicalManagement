@@ -83,7 +83,6 @@ namespace Maui.MedicalManagement.ViewModels
             {
                 // Refresh all service data
                 PatientServiceProxy.Current.Refresh();
-                PhysicianServiceProxy.Current.Refresh();
                 AppointmentServiceProxy.Current.Refresh();
 
                 // Update statistics
@@ -99,7 +98,7 @@ namespace Maui.MedicalManagement.ViewModels
                 RecentPatients.Clear();
                 var recentPatients = PatientServiceProxy.Current.patients?
                     .Where(p => p != null)
-                    .OrderByDescending(p => p.Id)
+                    .OrderByDescending(p => p?.Id)
                     .Take(5)
                     .Select(p => new PatientViewModel(p));
 
@@ -130,8 +129,6 @@ namespace Maui.MedicalManagement.ViewModels
 
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(patients, Newtonsoft.Json.Formatting.Indented);
 
-                // In a real app, you'd use proper file handling for the platform
-                // For now, we'll write to a standard location
                 using (var writer = new System.IO.StreamWriter(@"C:\temp\data.json"))
                 {
                     writer.Write(json);
@@ -147,8 +144,6 @@ namespace Maui.MedicalManagement.ViewModels
         {
             try
             {
-                // In a real app, you'd use proper file handling for the platform
-                // For now, we'll read from a standard location
                 string json;
                 using (var reader = new System.IO.StreamReader(@"C:\temp\data.json"))
                 {
@@ -161,11 +156,11 @@ namespace Maui.MedicalManagement.ViewModels
                 {
                     foreach (var patient in patients)
                     {
-                        patient.Id = 0; // Reset ID for new import
-                        PatientServiceProxy.Current.AddOrUpdate(patient);
+                        patient.Id = 0;
+                        PatientServiceProxy.Current?.AddOrUpdate(patient);
                     }
 
-                    Refresh(); // Refresh the dashboard after import
+                    Refresh();
                 }
             }
             catch (Exception ex)
