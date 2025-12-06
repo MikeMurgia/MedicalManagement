@@ -16,7 +16,7 @@ namespace Library.MedicalManagement.Utilities
         {
             Client = new HttpClient();
         }
-        public async Task<string> Get(string url)
+        public async Task<string?> Get(string url)
         {
             var fullUrl = $"https://{host}:{port}{url}";
             try
@@ -38,7 +38,7 @@ namespace Library.MedicalManagement.Utilities
             return null;
         }
 
-        public async Task<string> Delete(string url)
+        public async Task<string?> Delete(string url)
         {
             var fullUrl = $"https://{host}:{port}{url}";
             try
