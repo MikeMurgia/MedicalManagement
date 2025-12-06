@@ -71,28 +71,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AppointmentDetailPage.xaml">
+	  <MauiXaml Update="Views\AppointmentDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="AppointmentsPage.xaml">
+	  <MauiXaml Update="Views\AppointmentsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="PatientDetailPage.xaml">
+	  <MauiXaml Update="Views\PatientDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="PatientsPage.xaml">
+	  <MauiXaml Update="Views\PatientsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="PhysicianDetailPage.xaml">
+	  <MauiXaml Update="Views\PhysicianDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="PhysiciansPage.xaml">
+	  <MauiXaml Update="Views\PhysiciansPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Views\" />
 	</ItemGroup>
 
 </Project>

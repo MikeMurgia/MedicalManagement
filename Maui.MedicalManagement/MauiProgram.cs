@@ -26,7 +26,6 @@ namespace Maui.MedicalManagement
             builder.Services.AddTransient<AppointmentDetailPage>();
 
             // Register ViewModels
-            builder.Services.AddTransient<MainDashboardViewModel>();
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<AppointmentViewModel>();
 
