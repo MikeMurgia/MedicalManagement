@@ -78,12 +78,6 @@ namespace Maui.MedicalManagement
                     return;
                 }
 
-                if (Physician.License.Length < 5)
-                {
-                    await DisplayAlert("Validation", "License number must be at least 5 characters", "OK");
-                    return;
-                }
-
                 var savedPhysician = await PhysicianServiceProxy.Current.AddOrUpdate(Physician);
 
                 if (savedPhysician != null)
@@ -120,7 +114,7 @@ namespace Maui.MedicalManagement
             }
 
             var confirm = await DisplayAlert("Confirm Delete",
-                $"Are you sure you want to delete Dr. {Physician.Name}? This action cannot be undone.",
+                $"Are you sure you want to delete {Physician.Name}? This action cannot be undone.",
                 "Yes", "No");
 
             if (confirm)

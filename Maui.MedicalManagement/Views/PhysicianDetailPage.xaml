@@ -42,7 +42,7 @@
 
                     <Label Text="Specializations:" FontAttributes="Bold" TextColor="#424242"/>
                     <Entry Text="{Binding Physician.Specializations}" 
-                           Placeholder="Enter specializations (comma-separated)"
+                           Placeholder="Enter specializations"
                            PlaceholderColor="#9E9E9E"
                            TextColor="#212121"
                            BackgroundColor="#FAFAFA"/>

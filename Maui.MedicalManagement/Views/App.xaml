@@ -29,10 +29,10 @@
                 <Setter Property="Padding" Value="10,5"/>
             </Style>
 
-            <Style TargetType="Frame">
+            <!-- <Style TargetType="Frame">
                 <Setter Property="HasShadow" Value="True"/>
                 <Setter Property="CornerRadius" Value="10"/>
-            </Style>
+            </Style> -->
 
             <Style TargetType="Entry">
                 <Setter Property="BackgroundColor" Value="White"/>

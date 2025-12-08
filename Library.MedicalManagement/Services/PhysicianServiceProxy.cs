@@ -39,7 +39,7 @@ namespace Library.MedicalManagement.Services
                 new PhysicianDTO
                 {
                     Id = 3,
-                    Name = "Dr. Michael Chen",
+                    Name = "Dr. Michael Murgia",
                     License = "MD11111",
                     GraduationDate = DateTime.Today.AddYears(-8),
                     Specializations = "Pediatrics"

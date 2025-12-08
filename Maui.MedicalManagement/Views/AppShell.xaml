@@ -8,9 +8,8 @@
 
     <!-- Flyout Header -->
     <Shell.FlyoutHeader>
-        <Grid BackgroundColor="#2196F3" HeightRequest="120" Padding="20">
+        <Grid BackgroundColor="#3244a8" HeightRequest="120" Padding="20">
             <VerticalStackLayout VerticalOptions="Center">
-                <Label Text="🏥" FontSize="40" TextColor="White" HorizontalOptions="Center"/>
                 <Label Text="Medical Management" 
                        FontSize="18" 
                        FontAttributes="Bold" 
