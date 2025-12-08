@@ -45,20 +45,5 @@ namespace Maui.MedicalManagement
                 await Shell.Current.GoToAsync("PhysicianDetail?physicianId=0");
             }
 
-            
-            private async void PatientCardTapped(object sender, EventArgs e)
-            {
-                await Shell.Current.GoToAsync("///PatientsPage");
-            }
-
-            private async void PhysicianCardTapped(object sender, EventArgs e)
-            {
-                await Shell.Current.GoToAsync("///PhysiciansPage");
-            }
-
-            private async void AppointmentCardTapped(object sender, EventArgs e)
-            {
-                await Shell.Current.GoToAsync("///AppointmentsPage");
-            }
         }
     }

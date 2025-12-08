@@ -15,106 +15,18 @@
 
             <!-- Header -->
             <VerticalStackLayout Grid.Row="0" Spacing="10">
-                <Label Text="🏥 Medical Management System" 
+                <Label Text="Medical Management System" 
                        FontSize="28" 
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
-                       TextColor="#2196F3"/>
-                <Label Text="Welcome to your healthcare management dashboard" 
-                       FontSize="16"
-                       HorizontalOptions="Center"
-                       TextColor="#757575"/>
+                       TextColor="#3244a8"/>
                 <BoxView HeightRequest="2" 
                          Color="#E0E0E0" 
                          Margin="0,10"/>
             </VerticalStackLayout>
 
-            <!-- Quick Actions -->
+            <!-- Navigation -->
             <Border Grid.Row="1" 
-                    BackgroundColor="#FFFFFF"
-                    Stroke="#BDBDBD"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 10"
-                    Padding="20">
-                <Border.Shadow>
-                    <Shadow Brush="#000000" Offset="2,2" Radius="5" Opacity="0.15"/>
-                </Border.Shadow>
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="Quick Actions" 
-                           FontSize="20" 
-                           FontAttributes="Bold"
-                           TextColor="#424242"/>
-
-                    <Grid ColumnSpacing="10" RowSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <!-- Add Patient Button -->
-                        <Button Grid.Row="0" Grid.Column="0"
-                                Text="➕ Add Patient"
-                                BackgroundColor="#2196F3"
-                                TextColor="White"
-                                Clicked="AddPatientClicked"
-                                CornerRadius="8"
-                                HeightRequest="50"/>
-
-                        <!-- Schedule Appointment Button -->
-                        <Button Grid.Row="0" Grid.Column="1"
-                                Text="📅 Schedule Appointment"
-                                BackgroundColor="#4CAF50"
-                                TextColor="White"
-                                Clicked="ScheduleAppointmentClicked"
-                                CornerRadius="8"
-                                HeightRequest="50"/>
-
-                        <!-- View All Patients Button -->
-                        <Button Grid.Row="1" Grid.Column="0"
-                                Text="👥 Manage Patients"
-                                BackgroundColor="#FF9800"
-                                TextColor="White"
-                                Clicked="ManagePatientsClicked"
-                                CornerRadius="8"
-                                HeightRequest="50"/>
-
-                        <!-- View All Physicians Button -->
-                        <Button Grid.Row="1" Grid.Column="1"
-                                Text="👨‍⚕️ Manage Physicians"
-                                BackgroundColor="#9C27B0"
-                                TextColor="White"
-                                Clicked="ManagePhysiciansClicked"
-                                CornerRadius="8"
-                                HeightRequest="50"/>
-
-                        <!-- View All Appointments Button -->
-                        <Button Grid.Row="2" Grid.Column="0"
-                                Text="📋 All Appointments"
-                                BackgroundColor="#00BCD4"
-                                TextColor="White"
-                                Clicked="ViewAppointmentsClicked"
-                                CornerRadius="8"
-                                HeightRequest="50"/>
-
-                        <!-- Add Physician Button -->
-                        <Button Grid.Row="2" Grid.Column="1"
-                                Text="➕ Add Physician"
-                                BackgroundColor="#FF5722"
-                                TextColor="White"
-                                Clicked="AddPhysicianClicked"
-                                CornerRadius="8"
-                                HeightRequest="50"/>
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
-
-            <!-- Navigation Cards -->
-            <Border Grid.Row="2" 
                     BackgroundColor="#FFFFFF"
                     Stroke="#BDBDBD"
                     StrokeThickness="1"
@@ -133,80 +45,71 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                        <!-- Patient Management Card -->
-                        <Border Grid.Column="0"
-                                BackgroundColor="#E3F2FD"
-                                Stroke="#2196F3"
-                                StrokeThickness="1"
-                                StrokeShape="RoundRectangle 10"
-                                Padding="15">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="PatientCardTapped"/>
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="10">
-                                <Label Text="👥" FontSize="30" HorizontalOptions="Center"/>
-                                <Label Text="Patients" 
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="Center"
-                                       TextColor="#1976D2"/>
-                                <Label Text="View, Add, Edit"
-                                       FontSize="10"
-                                       HorizontalOptions="Center"
-                                       TextColor="#757575"/>
-                            </VerticalStackLayout>
-                        </Border>
+                        <!-- Add Patient Button -->
+                        <Button Grid.Row="0" Grid.Column="0"
+                                Text="Add Patient"
+                                BackgroundColor="#3244a8"
+                                TextColor="White"
+                                Clicked="AddPatientClicked"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
 
-                        <!-- Physician Management Card -->
-                        <Border Grid.Column="1"
-                                BackgroundColor="#E8F5E9"
-                                Stroke="#4CAF50"
-                                StrokeThickness="1"
-                                StrokeShape="RoundRectangle 10"
-                                Padding="15">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="PhysicianCardTapped"/>
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="10">
-                                <Label Text="👨‍⚕️" FontSize="30" HorizontalOptions="Center"/>
-                                <Label Text="Physicians" 
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="Center"
-                                       TextColor="#388E3C"/>
-                                <Label Text="View, Add, Edit"
-                                       FontSize="10"
-                                       HorizontalOptions="Center"
-                                       TextColor="#757575"/>
-                            </VerticalStackLayout>
-                        </Border>
+                        <!-- Manage Patients Button -->
+                        <Button Grid.Row="0" Grid.Column="1"
+                                Text="Manage Patients"
+                                BackgroundColor="#2d1e6b"
+                                TextColor="White"
+                                Clicked="ManagePatientsClicked"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
 
-                        <!-- Appointment Management Card -->
-                        <Border Grid.Column="2"
-                                BackgroundColor="#FFF3E0"
-                                Stroke="#FF9800"
-                                StrokeThickness="1"
-                                StrokeShape="RoundRectangle 10"
-                                Padding="15">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="AppointmentCardTapped"/>
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="10">
-                                <Label Text="📅" FontSize="30" HorizontalOptions="Center"/>
-                                <Label Text="Appointments" 
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="Center"
-                                       TextColor="#F57C00"/>
-                                <Label Text="Schedule, View"
-                                       FontSize="10"
-                                       HorizontalOptions="Center"
-                                       TextColor="#757575"/>
-                            </VerticalStackLayout>
-                        </Border>
+                        <!-- Schedule Appointments Button -->
+                        <Button Grid.Row="2" Grid.Column="0"
+                                Text="Schedule Appointment"
+                                BackgroundColor="#c23029"
+                                TextColor="White"
+                                Clicked="ScheduleAppointmentClicked"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
+
+                        <!-- Manage Physicians Button -->
+                        <Button Grid.Row="1" Grid.Column="1"
+                                Text="Manage Physicians"
+                                BackgroundColor="#1b6326"
+                                TextColor="White"
+                                Clicked="ManagePhysiciansClicked"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
+
+                        <!-- Manage Appointments Button -->
+                        <Button Grid.Row="2" Grid.Column="1"
+                                Text="Manage Appointments"
+                                BackgroundColor="#701c18"
+                                TextColor="White"
+                                Clicked="ViewAppointmentsClicked"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
+
+                        <!-- Add Physician Button -->
+                        <Button Grid.Row="1" Grid.Column="0"
+                                Text="Add Physician"
+                                BackgroundColor="#32ba47"
+                                TextColor="White"
+                                Clicked="AddPhysicianClicked"
+                                CornerRadius="8"
+                                HeightRequest="50"/>
                     </Grid>
                 </VerticalStackLayout>
             </Border>
+
+
 
         </Grid>
     </ScrollView>

@@ -94,7 +94,7 @@ namespace Maui.MedicalManagement
                 }
                 else
                 {
-                    // New patient - set defaults
+                    // New patient
                     NameEntry.Text = string.Empty;
                     AddressEntry.Text = string.Empty;
                     BirthdatePicker.Date = DateTime.Today.AddYears(-18);
