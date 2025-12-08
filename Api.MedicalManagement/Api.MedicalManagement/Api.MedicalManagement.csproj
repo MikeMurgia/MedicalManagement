@@ -41,7 +41,7 @@
 
 	<ItemGroup>
 	  <Reference Include="Library.MedicalManagement">
-	    <HintPath>..\..\Library.MedicalManagement\bin\Debug\net8.0\Library.MedicalManagement.dll</HintPath>
+	    <HintPath>..\..\Library.MedicalManagement\bin\Debug\net9.0\Library.MedicalManagement.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

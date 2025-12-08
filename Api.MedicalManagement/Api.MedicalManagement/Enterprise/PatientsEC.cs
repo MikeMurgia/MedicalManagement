@@ -6,11 +6,21 @@ namespace Api.MedicalManagement.Enterprise
 {
     public class PatientsEC
     {
-        public IEnumerable<PatientDTO> GetBlogs()
+        public IEnumerable<PatientDTO> GetPats()
         {
             return Filebase.Current.Pats
                 //.Where(p => p.UserId == CLAIM.UserId)
-                .Select(p => new PatientDTO(p))
+                .Select(p => new PatientDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Address = p.Address,
+                    Birthdate = p.Birthdate,
+                    Race = p.Race,
+                    Gender = p.Gender,
+                    Diagnoses = p.Diagnoses,
+                    Prescriptions = p.Prescriptions
+                })
                 .OrderByDescending(p => p.Id)
                 .Take(100);
         }

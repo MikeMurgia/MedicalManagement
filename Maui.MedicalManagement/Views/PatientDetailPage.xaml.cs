@@ -114,7 +114,6 @@ namespace Maui.MedicalManagement
         {
             try
             {
-                // Validate
                 if (string.IsNullOrWhiteSpace(NameEntry.Text))
                 {
                     await DisplayAlert("Validation", "Name is required", "OK");
@@ -127,7 +126,6 @@ namespace Maui.MedicalManagement
                     return;
                 }
 
-                // Build the DTO from form values
                 var patientDto = new PatientDTO
                 {
                     Id = _patientId,
@@ -140,10 +138,6 @@ namespace Maui.MedicalManagement
                     Prescriptions = PrescriptionsEditor.Text?.Trim() ?? string.Empty
                 };
 
-                // Debug output
-                System.Diagnostics.Debug.WriteLine($"Saving patient: {patientDto.Name}");
-                System.Diagnostics.Debug.WriteLine($"  Diagnoses: {patientDto.Diagnoses}");
-                System.Diagnostics.Debug.WriteLine($"  Prescriptions: {patientDto.Prescriptions}");
 
                 var savedPatient = await PatientServiceProxy.Current.AddOrUpdate(patientDto);
 
@@ -159,8 +153,6 @@ namespace Maui.MedicalManagement
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error saving patient: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                 await DisplayAlert("Error", $"Failed to save patient: {ex.Message}", "OK");
             }
         }
@@ -182,23 +174,10 @@ namespace Maui.MedicalManagement
                 return;
             }
 
-            var confirm = await DisplayAlert("Confirm Delete",
-                $"Are you sure you want to delete {Patient.Name}? This action cannot be undone.",
-                "Yes", "No");
+            PatientServiceProxy.Current.Delete(_patientId);
+            await DisplayAlert("Success", "Patient deleted successfully", "OK");
+            await Shell.Current.GoToAsync("///PatientsPage");
 
-            if (confirm)
-            {
-                try
-                {
-                    PatientServiceProxy.Current.Delete(_patientId);
-                    await DisplayAlert("Success", "Patient deleted successfully", "OK");
-                    await Shell.Current.GoToAsync("///PatientsPage");
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"Failed to delete patient: {ex.Message}", "OK");
-                }
-            }
         }
     }
 }
