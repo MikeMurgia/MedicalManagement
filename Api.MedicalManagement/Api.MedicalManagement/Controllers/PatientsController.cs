@@ -22,7 +22,7 @@ namespace Api.MedicalManagement.Controllers
         [HttpGet]
         public IEnumerable<PatientDTO> Get()
         {
-            return new PatientsEC().GetBlogs();
+            return new PatientsEC().GetPats();
         }
 
         [HttpGet("{id}")]

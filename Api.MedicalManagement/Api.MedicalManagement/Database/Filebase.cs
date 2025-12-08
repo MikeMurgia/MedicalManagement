@@ -48,8 +48,8 @@ namespace Api.MedicalManagement.Database
                 pat.Id = LastPatKey + 1;
             }
 
-            pat.Diagnoses ??= string.Empty;
-            pat.Prescriptions ??= string.Empty;
+            //pat.Diagnoses ??= string.Empty;
+            //pat.Prescriptions ??= string.Empty;
             
             string path = $"{_patRoot}\\{pat.Id}.json";
 
