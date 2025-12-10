@@ -62,7 +62,7 @@ public class AppointmentServiceProxy
     {
         appointmentsList = new List<AppointmentDTO?>();
 
-        // Examples:
+        /* Examples:
         var today = DateTime.Today;
         if (today.DayOfWeek == DayOfWeek.Saturday)
             today = today.AddDays(2);
@@ -89,7 +89,7 @@ public class AppointmentServiceProxy
             PhysicianId = 2,
             PatientName = "person two",
             PhysicianName = "Dr. Sarah Johnson"
-        });
+        });*/
     }
 
     public void Refresh()

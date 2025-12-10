@@ -19,7 +19,7 @@ namespace Library.MedicalManagement.Services
         {
             physicianList = new List<PhysicianDTO?>
             {
-                //Examples:
+                /*Examples:
                 new PhysicianDTO
                 {
                     Id = 1,
@@ -43,7 +43,7 @@ namespace Library.MedicalManagement.Services
                     License = "MD11111",
                     GraduationDate = DateTime.Today.AddYears(-8),
                     Specializations = "Pediatrics"
-                }
+                }*/
             };
         }
 
