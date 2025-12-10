@@ -82,22 +82,6 @@
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Business Hours Notice -->
-            <Border BackgroundColor="#E3F2FD" 
-                   Stroke="#2196F3"
-                   Padding="10"
-                   StrokeShape="RoundRectangle 5">
-                <Label TextColor="#1976D2"
-                       HorizontalTextAlignment="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="ℹ️ " FontSize="16"/>
-                            <Span Text="Business Hours: Monday-Friday, 8:00 AM - 5:00 PM" 
-                                  FontAttributes="Bold"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </Border>
 
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Button Text="Schedule" 
